@@ -1,0 +1,16 @@
+name: PaddleCounter
+options:
+  bundleIdPrefix: com.matthew5030
+targets:
+  PaddleCounter:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [PaddleCounter]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.matthew5030.PaddleCounter
+        SWIFT_VERSION: 5.0
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "PaddleCounter listens for paddle hits to count rallies. Audio is processed on your device."
+        TARGETED_DEVICE_FAMILY: "1"
