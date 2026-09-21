@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10E64FD1327D8B2E4A547512 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76775D92FC175F384D72F557 /* ContentView.swift */; };
+		32E560823ED378252538046A /* MilestoneFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */; };
 		3E54333C03AAE03DA40C9F16 /* PlayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EF742EECB9D51521466DA5 /* PlayScreen.swift */; };
 		3EA2ECD3E6FD45A450322413 /* SoundClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECA085421BA30529A761490 /* SoundClassifier.swift */; };
 		41C1F19CE39DC74A789AC24C /* CalibrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0768F5B8C267A1273E0580BF /* CalibrationScreen.swift */; };
@@ -46,6 +47,7 @@
 		82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddleCounterApp.swift; sourceTree = "<group>"; };
 		831AB222354780CE07DA04B8 /* PaddleCounter.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PaddleCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B92BD242546BAECA1445749A /* AudioDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDetector.swift; sourceTree = "<group>"; };
+		F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneFeedback.swift; sourceTree = "<group>"; };
 		FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		FEB289BBB5B61912C093160A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +71,7 @@
 				FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */,
 				5A2B687719C35E7E8592FBC8 /* GameController.swift */,
 				5D01298B34EDFB211868F66B /* HistoryScreen.swift */,
+				F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */,
 				76236DAAFBFC474CF99358EC /* Models.swift */,
 				82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */,
 				18EF742EECB9D51521466DA5 /* PlayScreen.swift */,
@@ -185,6 +188,7 @@
 				E869E7A3123D808D9B57E98D /* DesignSystem.swift in Sources */,
 				60CA122F73EEE8E13FB3E11D /* GameController.swift in Sources */,
 				D557D4554356923A9237030C /* HistoryScreen.swift in Sources */,
+				32E560823ED378252538046A /* MilestoneFeedback.swift in Sources */,
 				9883BC8EBA44B1ED80A18F37 /* Models.swift in Sources */,
 				70F6565FA174BA7464145E2B /* PaddleCounterApp.swift in Sources */,
 				3E54333C03AAE03DA40C9F16 /* PlayScreen.swift in Sources */,

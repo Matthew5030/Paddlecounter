@@ -6,11 +6,13 @@ struct ContentView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var detector = AudioDetector()
     @StateObject private var game = GameController()
+    @StateObject private var milestoneFeedback = MilestoneFeedback()
     @Query(sort: \SessionRecord.startedAt, order: .reverse) private var sessions: [SessionRecord]
 
     @AppStorage("rallySilenceSeconds") private var silenceSeconds = 3.0
     @AppStorage("minimumRallyHits") private var minimumHits = 1
     @AppStorage("soundSensitivity") private var soundSensitivity = 0.5
+    @AppStorage("milestoneSoundsEnabled") private var milestoneSoundsEnabled = true
 
     @State private var selectedTab = 0
     @State private var errorMessage: String?
@@ -51,6 +53,11 @@ struct ContentView: View {
             detector.onHit = { confidence in
                 game.hit(confidence: confidence, context: context)
             }
+            game.onMilestone = { celebration in
+                guard milestoneFeedback.isEnabled else { return }
+                detector.suppressForPlayback(celebration.playbackSuppression)
+                milestoneFeedback.play(celebration)
+            }
             applySettings()
         }
         .onChange(of: selectedTab) { _, newTab in
@@ -62,6 +69,7 @@ struct ContentView: View {
         .onChange(of: silenceSeconds) { _, _ in applySettings() }
         .onChange(of: minimumHits) { _, _ in applySettings() }
         .onChange(of: soundSensitivity) { _, _ in applySettings() }
+        .onChange(of: milestoneSoundsEnabled) { _, _ in applySettings() }
         .alert(
             "PaddleCounter",
             isPresented: Binding(
@@ -78,7 +86,8 @@ struct ContentView: View {
                 detector: detector,
                 silenceSeconds: $silenceSeconds,
                 minimumHits: $minimumHits,
-                soundSensitivity: $soundSensitivity
+                soundSensitivity: $soundSensitivity,
+                milestoneSoundsEnabled: $milestoneSoundsEnabled
             )
         }
     }
@@ -87,6 +96,7 @@ struct ContentView: View {
         game.silenceSeconds = silenceSeconds
         game.minimumHits = minimumHits
         detector.sensitivity = soundSensitivity
+        milestoneFeedback.isEnabled = milestoneSoundsEnabled
     }
 
     private func toggleSession() {

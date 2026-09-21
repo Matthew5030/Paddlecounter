@@ -6,6 +6,7 @@ struct SettingsView: View {
     @Binding var silenceSeconds: Double
     @Binding var minimumHits: Int
     @Binding var soundSensitivity: Double
+    @Binding var milestoneSoundsEnabled: Bool
 
     var body: some View {
         NavigationStack {
@@ -54,6 +55,17 @@ struct SettingsView: View {
                         Text("Recognition")
                     } footer: {
                         Text("Balanced is recommended. PaddleCounter also adapts automatically to the room's background level.")
+                    }
+
+                    Section {
+                        Toggle(isOn: $milestoneSoundsEnabled) {
+                            Label("Milestone sounds & haptics", systemImage: "sparkles")
+                        }
+                        .tint(PCTheme.lime)
+                    } header: {
+                        Text("Game feel")
+                    } footer: {
+                        Text("The visual burst stays on. Sounds and haptics play at 10, 25, 50 and 100 hits, then every 50 hits.")
                     }
 
                     Section {

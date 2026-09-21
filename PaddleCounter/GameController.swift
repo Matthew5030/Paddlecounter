@@ -11,6 +11,7 @@ final class GameController: ObservableObject {
 
     var silenceSeconds: TimeInterval = 3
     var minimumHits = 1
+    var onMilestone: ((RallyCelebration) -> Void)?
 
     private var rallyStartedAt: Date?
     private var lastHitAt: Date?
@@ -45,6 +46,9 @@ final class GameController: ObservableObject {
         sessionTotalHits += 1
         confidences.append(confidence)
         lastHitAt = .now
+        if let milestone = RallyCelebration.milestone(for: currentHits) {
+            onMilestone?(milestone)
+        }
     }
 
     private func tick() {

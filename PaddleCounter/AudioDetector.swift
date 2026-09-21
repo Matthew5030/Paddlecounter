@@ -33,6 +33,7 @@ final class AudioDetector: ObservableObject {
     private var noiseFloor: Float = 0.003
     private var previousRMS: Float = 0
     private var tapInstalled = false
+    private var suppressUntil = Date.distantPast
 
     func start() async throws {
         guard !isRunning else { return }
@@ -46,7 +47,7 @@ final class AudioDetector: ObservableObject {
         }
 
         let session = AVAudioSession.sharedInstance()
-        try session.setCategory(.record, mode: .measurement, options: [])
+        try session.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker])
         try session.setPreferredIOBufferDuration(0.02)
         try session.setActive(true)
         lastEvent = .distantPast
@@ -111,8 +112,16 @@ final class AudioDetector: ObservableObject {
         lastConfidence = 0
     }
 
+    func suppressForPlayback(_ duration: TimeInterval) {
+        suppressUntil = Date().addingTimeInterval(duration)
+    }
+
     private func consume(_ features: AudioFeatures) {
         let now = Date()
+        guard now >= suppressUntil else {
+            previousRMS = features.rms
+            return
+        }
         let label = calibrationLabel
         let minimumGap = label == .ignoredSound ? 0.20 : 0.12
         guard now.timeIntervalSince(lastEvent) >= minimumGap else {

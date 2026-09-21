@@ -3,6 +3,7 @@ import SwiftUI
 struct PlayScreen: View {
     @ObservedObject var game: GameController
     @ObservedObject var detector: AudioDetector
+    @State private var celebration: RallyCelebration?
 
     let detectorIsReady: Bool
     let onPrimaryAction: () -> Void
@@ -18,6 +19,9 @@ struct PlayScreen: View {
             }
         }
         .toolbar(game.active ? .hidden : .visible, for: .tabBar)
+        .onChange(of: game.currentHits) { _, hitCount in
+            showCelebration(for: hitCount)
+        }
     }
 
     private var portraitHome: some View {
@@ -49,6 +53,11 @@ struct PlayScreen: View {
             ZStack {
                 PCBackground(accent: PCTheme.lime)
 
+                if let celebration {
+                    MilestoneBurst(celebration: celebration)
+                        .transition(.scale(scale: 0.55).combined(with: .opacity))
+                }
+
                 Text("\(game.currentHits)")
                     .font(.system(
                         size: min(proxy.size.height * 0.78, proxy.size.width * 0.48),
@@ -56,12 +65,14 @@ struct PlayScreen: View {
                         design: .rounded
                     ))
                     .monospacedDigit()
-                    .foregroundStyle(.white)
+                    .foregroundStyle(celebration?.colour ?? .white)
                     .minimumScaleFactor(0.35)
                     .lineLimit(1)
                     .contentTransition(.numericText(value: Double(game.currentHits)))
                     .animation(.snappy, value: game.currentHits)
                     .shadow(color: PCTheme.ink.opacity(0.42), radius: 3, y: 3)
+                    .scaleEffect(celebration == nil ? 1 : 1.08)
+                    .animation(.spring(duration: 0.34, bounce: 0.52), value: celebration)
                     .padding(.horizontal, 120)
 
                 VStack {
@@ -86,6 +97,23 @@ struct PlayScreen: View {
         }
         .ignoresSafeArea()
         .preferredColorScheme(.dark)
+    }
+
+    private func showCelebration(for hitCount: Int) {
+        guard game.active,
+              let newCelebration = RallyCelebration.milestone(for: hitCount) else { return }
+
+        withAnimation(.spring(duration: 0.32, bounce: 0.48)) {
+            celebration = newCelebration
+        }
+
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(760))
+            guard celebration == newCelebration else { return }
+            withAnimation(.easeOut(duration: 0.24)) {
+                celebration = nil
+            }
+        }
     }
 
     private var header: some View {
@@ -219,5 +247,45 @@ struct PlayScreen: View {
             .background(PCTheme.lime, in: RoundedRectangle(cornerRadius: 18))
         }
         .buttonStyle(.plain)
+    }
+}
+
+private struct MilestoneBurst: View {
+    let celebration: RallyCelebration
+
+    private let angles = Array(stride(from: 0.0, to: 360.0, by: 30.0))
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(celebration.colour.opacity(0.68), lineWidth: 8)
+                .frame(width: 240, height: 240)
+
+            Circle()
+                .stroke(Color.white.opacity(0.58), lineWidth: 3)
+                .frame(width: 310, height: 310)
+
+            ForEach(Array(angles.enumerated()), id: \.offset) { index, angle in
+                Image(systemName: index.isMultiple(of: 2) ? "sparkle" : "circle.fill")
+                    .font(.system(size: index.isMultiple(of: 2) ? 25 : 10, weight: .black))
+                    .foregroundStyle(index.isMultiple(of: 3) ? PCTheme.coral : celebration.colour)
+                    .offset(y: -188)
+                    .rotationEffect(.degrees(angle))
+            }
+        }
+        .shadow(color: celebration.colour.opacity(0.38), radius: 16)
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
+}
+
+private extension RallyCelebration {
+    var colour: Color {
+        switch self {
+        case .ten: PCTheme.lime
+        case .twentyFive: .white
+        case .fifty: PCTheme.aqua
+        case .century: PCTheme.coral
+        }
     }
 }

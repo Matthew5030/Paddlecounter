@@ -77,6 +77,16 @@ final class SoundClassifierTests: XCTestCase {
         XCTAssertTrue(decoded.isReady)
     }
 
+    func testRallyMilestonesStaySparseAndGrowWithTheRally() {
+        XCTAssertEqual(RallyCelebration.milestone(for: 10), .ten)
+        XCTAssertEqual(RallyCelebration.milestone(for: 25), .twentyFive)
+        XCTAssertEqual(RallyCelebration.milestone(for: 50), .fifty)
+        XCTAssertEqual(RallyCelebration.milestone(for: 100), .century(100))
+        XCTAssertEqual(RallyCelebration.milestone(for: 150), .century(150))
+        XCTAssertNil(RallyCelebration.milestone(for: 11))
+        XCTAssertNil(RallyCelebration.milestone(for: 125))
+    }
+
     private func makeProfile() -> SoundProfile {
         SoundProfile(
             positiveExamples: (0..<12).map {
