@@ -358,9 +358,10 @@ struct CalibrationScreen: View {
 
     private var sensitivityLabel: String {
         switch soundSensitivity {
-        case ..<0.3: "Low"
-        case 0.3..<0.7: "Balanced"
-        default: "High"
+        case ..<0.25: "Quiet room"
+        case 0.25..<0.65: "Smart"
+        case 0.65..<0.85: "Sensitive"
+        default: "Very sensitive"
         }
     }
 

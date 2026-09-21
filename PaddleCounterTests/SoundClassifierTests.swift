@@ -87,6 +87,20 @@ final class SoundClassifierTests: XCTestCase {
         XCTAssertNil(RallyCelebration.milestone(for: 125))
     }
 
+    @MainActor
+    func testSensitivityNowAllowsQuieterLowerConfidenceHits() {
+        let detector = AudioDetector()
+
+        detector.sensitivity = 0
+        XCTAssertEqual(detector.classificationThreshold, 0.78, accuracy: 0.001)
+
+        detector.sensitivity = 0.7
+        XCTAssertEqual(detector.classificationThreshold, 0.598, accuracy: 0.001)
+
+        detector.sensitivity = 1
+        XCTAssertEqual(detector.classificationThreshold, 0.52, accuracy: 0.001)
+    }
+
     private func makeProfile() -> SoundProfile {
         SoundProfile(
             positiveExamples: (0..<12).map {

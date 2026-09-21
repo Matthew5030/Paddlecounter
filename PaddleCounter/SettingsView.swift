@@ -54,7 +54,7 @@ struct SettingsView: View {
                     } header: {
                         Text("Recognition")
                     } footer: {
-                        Text("Balanced is recommended. PaddleCounter also adapts automatically to the room's background level.")
+                        Text("Smart is recommended. PaddleCounter listens for quieter impacts while its learned profile filters other sounds.")
                     }
 
                     Section {
@@ -102,9 +102,10 @@ struct SettingsView: View {
 
     private var sensitivityLabel: String {
         switch soundSensitivity {
-        case ..<0.3: "Low"
-        case 0.3..<0.7: "Balanced"
-        default: "High"
+        case ..<0.25: "Quiet room"
+        case 0.25..<0.65: "Smart"
+        case 0.65..<0.85: "Sensitive"
+        default: "Very sensitive"
         }
     }
 }

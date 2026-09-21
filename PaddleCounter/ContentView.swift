@@ -11,7 +11,7 @@ struct ContentView: View {
 
     @AppStorage("rallySilenceSeconds") private var silenceSeconds = 3.0
     @AppStorage("minimumRallyHits") private var minimumHits = 1
-    @AppStorage("soundSensitivity") private var soundSensitivity = 0.5
+    @AppStorage("soundSensitivity") private var soundSensitivity = 0.7
     @AppStorage("milestoneSoundsEnabled") private var milestoneSoundsEnabled = true
 
     @State private var selectedTab = 0
