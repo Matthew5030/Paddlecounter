@@ -102,6 +102,11 @@ final class AudioDetector: ObservableObject {
         lastConfidence = 0
     }
 
+    func clearRecentEvents() {
+        recentEvents = []
+        lastConfidence = 0
+    }
+
     private func consume(_ features: AudioFeatures) {
         let now = Date()
         let label = calibrationLabel

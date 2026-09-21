@@ -5,6 +5,9 @@ import SwiftData
 final class GameController: ObservableObject {
     @Published private(set) var currentHits = 0
     @Published private(set) var active = false
+    @Published private(set) var sessionTotalHits = 0
+    @Published private(set) var completedRallies = 0
+    @Published private(set) var bestRally = 0
 
     var silenceSeconds: TimeInterval = 3
     var minimumHits = 1
@@ -23,6 +26,9 @@ final class GameController: ObservableObject {
         session = newSession
         modelContext = context
         currentHits = 0
+        sessionTotalHits = 0
+        completedRallies = 0
+        bestRally = 0
         confidences = []
         active = true
         timer = Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true) { [weak self] _ in
@@ -36,6 +42,7 @@ final class GameController: ObservableObject {
         guard active else { return }
         if currentHits == 0 { rallyStartedAt = .now }
         currentHits += 1
+        sessionTotalHits += 1
         confidences.append(confidence)
         lastHitAt = .now
     }
@@ -61,6 +68,8 @@ final class GameController: ObservableObject {
             )
             rally.session = session
             context.insert(rally)
+            completedRallies += 1
+            bestRally = max(bestRally, currentHits)
         }
         currentHits = 0
         rallyStartedAt = nil
