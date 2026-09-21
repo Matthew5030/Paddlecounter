@@ -3,12 +3,12 @@ import SwiftUI
 struct CalibrationScreen: View {
     enum Stage: Int, CaseIterable {
         case paddle = 0
-        case noises = 1
-        case test = 2
+        case test = 1
     }
 
     @ObservedObject var detector: AudioDetector
     let sessionIsActive: Bool
+    @Binding var soundSensitivity: Double
     let onError: (String) -> Void
 
     @State private var stage: Stage = .paddle
@@ -47,7 +47,7 @@ struct CalibrationScreen: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("You will need to teach PaddleCounter your paddle and ignored sounds again.")
+            Text("You will need to teach PaddleCounter your paddle again.")
         }
     }
 
@@ -99,7 +99,7 @@ struct CalibrationScreen: View {
         switch stage {
         case .paddle:
             recordingStage(
-                eyebrow: "STEP 1 OF 3",
+                eyebrow: "STEP 1 OF 2",
                 title: "Record paddle hits",
                 explanation: "Make a mix of normal, soft and hard hits from where the phone will sit during play.",
                 symbol: "figure.pickleball",
@@ -108,20 +108,6 @@ struct CalibrationScreen: View {
                 minimum: 8,
                 label: .paddleHit,
                 guidance: "Leave a small pause between each hit.",
-                nextTitle: "Next: sounds to ignore",
-                nextStage: .noises
-            )
-        case .noises:
-            recordingStage(
-                eyebrow: "STEP 2 OF 3",
-                title: "Record everyday noise",
-                explanation: "Talk, clap, walk, squeak shoes and bounce the ball. Variety helps it reject false hits.",
-                symbol: "speaker.wave.2.fill",
-                count: detector.negativeExamples,
-                target: 24,
-                minimum: 8,
-                label: .ignoredSound,
-                guidance: "Record the noises from the same phone position.",
                 nextTitle: "Test the detector",
                 nextStage: .test
             )
@@ -233,7 +219,7 @@ struct CalibrationScreen: View {
 
     private var testStage: some View {
         let testing = detector.isRunning && detector.calibrationLabel == nil
-        let ready = detector.positiveExamples >= 8 && detector.negativeExamples >= 8
+        let ready = detector.positiveExamples >= 8
 
         return VStack(spacing: 20) {
             ZStack {
@@ -249,16 +235,36 @@ struct CalibrationScreen: View {
                 Text(ready ? "Your detector is ready" : "A few more examples needed")
                     .font(.title2.bold())
                     .foregroundStyle(.white)
-                Text(ready ? "Try paddle hits and noises now. The result appears instantly without adding anything to your history." : "Record at least eight examples in each of the first two steps.")
+                Text(ready ? "Try paddle hits, speech and other noises. Common indoor sounds are rejected automatically." : "Record at least eight paddle-hit examples first.")
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(PCTheme.textSecondary)
             }
 
-            HStack(spacing: 12) {
-                calibrationTotal(title: "Paddle hits", count: detector.positiveExamples, colour: PCTheme.lime)
-                calibrationTotal(title: "Ignored", count: detector.negativeExamples, colour: PCTheme.coral)
+            calibrationTotal(title: "Paddle examples learned", count: detector.positiveExamples, colour: PCTheme.lime)
+
+            VStack(spacing: 10) {
+                HStack {
+                    Label("Smart sensitivity", systemImage: "ear")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Text(sensitivityLabel)
+                        .font(.subheadline.bold())
+                        .foregroundStyle(PCTheme.lime)
+                }
+                Slider(value: $soundSensitivity, in: 0...1, step: 0.05)
+                    .tint(PCTheme.lime)
+                HStack {
+                    Text("Reject more noise")
+                    Spacer()
+                    Text("Hear quieter hits")
+                }
+                .font(.caption2)
+                .foregroundStyle(PCTheme.textSecondary)
             }
+            .padding(15)
+            .background(Color.black.opacity(0.16), in: RoundedRectangle(cornerRadius: 16))
 
             if ready {
                 Button(action: toggleTest) {
@@ -346,15 +352,21 @@ struct CalibrationScreen: View {
     private var stageColour: Color {
         switch stage {
         case .paddle: PCTheme.lime
-        case .noises: PCTheme.coral
         case .test: PCTheme.aqua
+        }
+    }
+
+    private var sensitivityLabel: String {
+        switch soundSensitivity {
+        case ..<0.3: "Low"
+        case 0.3..<0.7: "Balanced"
+        default: "High"
         }
     }
 
     private func stepName(_ item: Stage) -> String {
         switch item {
         case .paddle: "Paddle"
-        case .noises: "Noise"
         case .test: "Test"
         }
     }
@@ -362,8 +374,6 @@ struct CalibrationScreen: View {
     private func chooseBestStage() {
         if detector.positiveExamples < 8 {
             stage = .paddle
-        } else if detector.negativeExamples < 8 {
-            stage = .noises
         } else {
             stage = .test
         }

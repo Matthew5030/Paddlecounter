@@ -22,7 +22,11 @@ final class AudioDetector: ObservableObject {
     @Published var calibrationLabel: CalibrationLabel?
 
     var onHit: ((Float) -> Void)?
-    var threshold: Float = 0.72
+    var sensitivity: Double = 0.5
+
+    var classificationThreshold: Float {
+        0.84 - Float(sensitivity) * 0.24
+    }
 
     private let engine = AVAudioEngine()
     private var lastEvent = Date.distantPast
@@ -116,9 +120,12 @@ final class AudioDetector: ObservableObject {
             return
         }
 
-        let adaptiveFloor = max(0.006, noiseFloor * 2.6)
+        let onsetMultiplier = Float(3.15 - sensitivity * 1.25)
+        let minimumPeakRatio = Float(2.45 - sensitivity * 0.70)
+        let absoluteFloor = Float(0.009 - sensitivity * 0.004)
+        let adaptiveFloor = max(absoluteFloor, noiseFloor * onsetMultiplier)
         let hasOnset = features.rms > adaptiveFloor &&
-            features.peakToRMS > 2.0 &&
+            features.peakToRMS > minimumPeakRatio &&
             features.rms > max(previousRMS * 1.12, 0.004)
         let usefulNegativeFrame = label == .ignoredSound && features.rms > max(0.005, noiseFloor * 1.35)
 
@@ -141,7 +148,24 @@ final class AudioDetector: ObservableObject {
             return
         }
 
-        let classifier = SoundClassifier(threshold: threshold)
+        if let rejection = StandardNoiseFilter.rejectionReason(for: features) {
+            lastConfidence = 0
+            recentEvents.insert(
+                DetectionEvent(
+                    timestamp: now,
+                    confidence: 0,
+                    accepted: false,
+                    reason: rejection,
+                    positiveDistance: .infinity,
+                    negativeDistance: nil
+                ),
+                at: 0
+            )
+            recentEvents = Array(recentEvents.prefix(20))
+            return
+        }
+
+        let classifier = SoundClassifier(threshold: classificationThreshold)
         let result = classifier.classify(features, using: CalibrationStore.shared.profile)
         lastConfidence = result.confidence
         let event = DetectionEvent(

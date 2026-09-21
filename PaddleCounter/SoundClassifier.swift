@@ -36,6 +36,22 @@ struct ClassificationResult: Equatable, Sendable {
     let reason: String
 }
 
+enum StandardNoiseFilter {
+    static func rejectionReason(for features: AudioFeatures) -> String? {
+        let voiceLike = features.centroid < 1_450 &&
+            features.highFrequencyRatio < 0.13 &&
+            features.zeroCrossingRate < 0.10 &&
+            features.spectralFlatness < 0.20
+        if voiceLike { return "Voice-like sound" }
+
+        let lowIndoorImpact = features.centroid < 900 &&
+            features.highFrequencyRatio < 0.07
+        if lowIndoorImpact { return "Low-frequency indoor noise" }
+
+        return nil
+    }
+}
+
 struct SoundClassifier: Sendable {
     var threshold: Float = 0.72
 

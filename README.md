@@ -8,17 +8,17 @@ The detector runs entirely on the iPhone:
 
 1. An adaptive noise floor and onset gate find short, sharp candidate sounds.
 2. Each candidate becomes a 30-value fingerprint: 18 log-mel spectral bands, a six-part temporal envelope, spectral centroid, high-frequency energy, peak/RMS, level, spectral flatness and zero-crossing rate.
-3. Calibration stores multiple positive paddle-hit examples and explicit negative examples such as speech, claps, footsteps and ball bounces.
-4. A locally trained, variance-normalised nearest-neighbour classifier compares each candidate with both groups. It accepts a sound only when it resembles the paddle cluster and is clearly separated from ignored sounds.
+3. Calibration stores multiple positive paddle-hit examples. Common speech and low indoor noise are rejected automatically by a standard on-device filter.
+4. A locally trained, variance-normalised nearest-neighbour classifier learns the shape and natural variation of that paddle's sound. A smart sensitivity setting jointly adjusts the adaptive sound gate and match threshold.
 
 Only feature vectors and detection metadata are retained. Raw microphone audio and conversations are not saved or uploaded.
 
 ## Calibration
 
 - Record 15–30 representative paddle hits from the phone's normal playing position.
-- Record at least 20 ignored sounds: both players talking, claps, footsteps, shoe squeaks, ball bounces and other indoor impacts.
-- Start a session and watch the detector diagnostics. Each candidate shows its confidence, its distance from learned hits and ignored sounds, and the reason it was accepted or rejected.
-- Adjust the confidence threshold in Settings if real hits are missed or false positives remain.
+- Use the built-in test step to try real hits, speech, claps and other indoor sounds. No separate negative-sound training is required.
+- Start a session and turn the phone to landscape. The rally count fills the screen for easy courtside visibility.
+- Adjust Sound Sensitivity in Settings: lower it to reject more noises or raise it to hear quieter hits. The detector continues adapting automatically to the room's background level.
 
 Changing the phone position or acoustic environment substantially should be followed by a new calibration.
 

@@ -14,7 +14,7 @@ struct SoundProfile: Codable, Equatable {
 
     var positiveCount: Int { positiveExamples.count }
     var negativeCount: Int { negativeExamples.count }
-    var isReady: Bool { positiveCount >= 8 && negativeCount >= 8 }
+    var isReady: Bool { positiveCount >= 8 }
 }
 
 final class CalibrationStore {

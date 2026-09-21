@@ -2,9 +2,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var detector: AudioDetector
     @Binding var silenceSeconds: Double
     @Binding var minimumHits: Int
-    @Binding var detectionThreshold: Double
+    @Binding var soundSensitivity: Double
 
     var body: some View {
         NavigationStack {
@@ -34,19 +35,25 @@ struct SettingsView: View {
                     Section {
                         VStack(alignment: .leading, spacing: 10) {
                             HStack {
-                                Label("Strictness", systemImage: "scope")
+                                Label("Sound sensitivity", systemImage: "ear")
                                 Spacer()
-                                Text(detectionThreshold, format: .percent.precision(.fractionLength(0)))
+                                Text(sensitivityLabel)
                                     .foregroundStyle(PCTheme.aqua)
-                                    .monospacedDigit()
                             }
-                            Slider(value: $detectionThreshold, in: 0.55...0.95, step: 0.01)
+                            Slider(value: $soundSensitivity, in: 0...1, step: 0.05)
                                 .tint(PCTheme.aqua)
+                            HStack {
+                                Text("Reject more")
+                                Spacer()
+                                Text("Hear quieter hits")
+                            }
+                            .font(.caption2)
+                            .foregroundStyle(PCTheme.textSecondary)
                         }
                     } header: {
                         Text("Recognition")
                     } footer: {
-                        Text("Raise strictness to reject more false hits. Lower it if genuine paddle hits are missed.")
+                        Text("Balanced is recommended. PaddleCounter also adapts automatically to the room's background level.")
                     }
 
                     Section {
@@ -54,6 +61,16 @@ struct SettingsView: View {
                             .foregroundStyle(PCTheme.textSecondary)
                     } header: {
                         Text("Privacy")
+                    }
+
+                    Section {
+                        NavigationLink {
+                            DiagnosticsScreen(detector: detector)
+                        } label: {
+                            Label("Detector details", systemImage: "waveform.badge.magnifyingglass")
+                        }
+                    } header: {
+                        Text("Testing")
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -69,6 +86,14 @@ struct SettingsView: View {
             }
         }
         .preferredColorScheme(.dark)
+    }
+
+    private var sensitivityLabel: String {
+        switch soundSensitivity {
+        case ..<0.3: "Low"
+        case 0.3..<0.7: "Balanced"
+        default: "High"
+        }
     }
 }
 

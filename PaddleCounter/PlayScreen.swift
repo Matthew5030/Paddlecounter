@@ -5,16 +5,24 @@ struct PlayScreen: View {
     @ObservedObject var detector: AudioDetector
 
     let detectorIsReady: Bool
-    let silenceSeconds: Double
     let onPrimaryAction: () -> Void
-    let onManualHit: () -> Void
     let onCalibration: () -> Void
     let onSettings: () -> Void
-    let onDiagnostics: () -> Void
 
     var body: some View {
+        Group {
+            if game.active {
+                landscapeRally
+            } else {
+                portraitHome
+            }
+        }
+        .toolbar(game.active ? .hidden : .visible, for: .tabBar)
+    }
+
+    private var portraitHome: some View {
         ZStack {
-            PCBackground(accent: game.active ? PCTheme.lime : PCTheme.aqua)
+            PCBackground(accent: PCTheme.lime)
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 22) {
@@ -22,9 +30,7 @@ struct PlayScreen: View {
                     status
                     counterCard
 
-                    if game.active {
-                        liveSessionControls
-                    } else if detectorIsReady {
+                    if detectorIsReady {
                         readyControls
                     } else {
                         setupCard
@@ -35,6 +41,50 @@ struct PlayScreen: View {
                 .padding(.bottom, 110)
             }
         }
+        .preferredColorScheme(.dark)
+    }
+
+    private var landscapeRally: some View {
+        GeometryReader { proxy in
+            ZStack {
+                PCBackground(accent: PCTheme.lime)
+
+                Text("\(game.currentHits)")
+                    .font(.system(
+                        size: min(proxy.size.height * 0.78, proxy.size.width * 0.48),
+                        weight: .black,
+                        design: .rounded
+                    ))
+                    .monospacedDigit()
+                    .foregroundStyle(.white)
+                    .minimumScaleFactor(0.35)
+                    .lineLimit(1)
+                    .contentTransition(.numericText(value: Double(game.currentHits)))
+                    .animation(.snappy, value: game.currentHits)
+                    .shadow(color: PCTheme.ink.opacity(0.42), radius: 3, y: 3)
+                    .padding(.horizontal, 120)
+
+                VStack {
+                    HStack {
+                        PCStatusPill(title: "Listening", colour: PCTheme.lime, pulses: true)
+                        Spacer()
+                        Button(action: onPrimaryAction) {
+                            Label("Finish", systemImage: "stop.fill")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 16)
+                                .frame(height: 44)
+                                .background(PCTheme.coral, in: Capsule())
+                                .shadow(color: PCTheme.ink.opacity(0.22), radius: 3, y: 2)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    Spacer()
+                }
+                .padding(20)
+            }
+        }
+        .ignoresSafeArea()
         .preferredColorScheme(.dark)
     }
 
@@ -57,28 +107,16 @@ struct PlayScreen: View {
     private var status: some View {
         HStack {
             PCStatusPill(
-                title: game.active ? "Listening live" : detectorIsReady ? "Ready to play" : "Setup needed",
-                colour: game.active ? PCTheme.lime : detectorIsReady ? PCTheme.aqua : PCTheme.coral,
-                pulses: game.active
+                title: detectorIsReady ? "Ready to play" : "Setup needed",
+                colour: detectorIsReady ? PCTheme.aqua : PCTheme.coral
             )
             Spacer()
-            if game.active, let event = detector.recentEvents.first {
-                Button(action: onDiagnostics) {
-                    HStack(spacing: 5) {
-                        Image(systemName: event.accepted ? "checkmark.circle.fill" : "waveform.badge.minus")
-                        Text(event.confidence, format: .percent.precision(.fractionLength(0)))
-                            .monospacedDigit()
-                    }
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(event.accepted ? PCTheme.lime : PCTheme.textSecondary)
-                }
-            }
         }
     }
 
     private var counterCard: some View {
         VStack(spacing: 8) {
-            Text(game.active ? "CURRENT RALLY" : "HITS")
+            Text("HITS")
                 .font(.caption.weight(.bold))
                 .tracking(1.8)
                 .foregroundStyle(PCTheme.textSecondary)
@@ -92,22 +130,16 @@ struct PlayScreen: View {
                 .contentTransition(.numericText(value: Double(game.currentHits)))
                 .animation(.snappy, value: game.currentHits)
 
-            if game.active {
-                Text("A \(silenceSeconds, specifier: "%.1f") second pause saves this rally")
-                    .font(.subheadline)
-                    .foregroundStyle(PCTheme.textSecondary)
-            } else {
-                Text(detectorIsReady ? "Put your phone down and let it count" : "Calibrate once, then play hands-free")
-                    .font(.subheadline)
-                    .foregroundStyle(PCTheme.textSecondary)
-            }
+            Text(detectorIsReady ? "Turn sideways, put your phone down and play" : "Calibrate once, then play hands-free")
+                .font(.subheadline)
+                .foregroundStyle(PCTheme.textSecondary)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 27)
         .padding(.horizontal, 20)
         .background(
             LinearGradient(
-                colors: [Color.white.opacity(0.10), Color.white.opacity(0.045)],
+                colors: [PCTheme.inkRaised, PCTheme.ink],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             ),
@@ -117,32 +149,6 @@ struct PlayScreen: View {
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .stroke(PCTheme.border)
         )
-    }
-
-    private var liveSessionControls: some View {
-        VStack(spacing: 16) {
-            HStack {
-                PCMetric(value: "\(game.sessionTotalHits)", label: "Session hits")
-                Spacer()
-                PCMetric(value: "\(game.completedRallies)", label: "Rallies", alignment: .center)
-                Spacer()
-                PCMetric(value: "\(game.bestRally)", label: "Best", alignment: .trailing)
-            }
-            .padding(20)
-            .pcCard()
-
-            Button(action: onManualHit) {
-                Label("Add missed hit", systemImage: "plus")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.85))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 13)
-                    .background(Color.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 15))
-            }
-            .buttonStyle(.plain)
-
-            primaryButton(title: "Finish session", icon: "stop.fill", destructive: true)
-        }
     }
 
     private var readyControls: some View {
@@ -160,7 +166,7 @@ struct PlayScreen: View {
     private var setupCard: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 14) {
-                Image(systemName: "scope")
+                Image(systemName: "tennis.racket")
                     .font(.title2.bold())
                     .foregroundStyle(PCTheme.ink)
                     .frame(width: 46, height: 46)
@@ -170,16 +176,13 @@ struct PlayScreen: View {
                     Text("Teach it your paddle")
                         .font(.headline)
                         .foregroundStyle(.white)
-                    Text("A quick guided setup learns your hit and the indoor sounds it should ignore.")
+                    Text("A quick guided setup learns the acoustic signature of your paddle.")
                         .font(.subheadline)
                         .foregroundStyle(PCTheme.textSecondary)
                 }
             }
 
-            HStack(spacing: 8) {
-                setupProgress(title: "Hits", count: detector.positiveExamples)
-                setupProgress(title: "Noises", count: detector.negativeExamples)
-            }
+            setupProgress(title: "Paddle hits", count: detector.positiveExamples)
 
             primaryButton(title: "Set up detector", icon: "scope")
         }
@@ -200,20 +203,20 @@ struct PlayScreen: View {
         .background(Color.white.opacity(0.06), in: Capsule())
     }
 
-    private func primaryButton(title: String, icon: String, destructive: Bool = false) -> some View {
+    private func primaryButton(title: String, icon: String) -> some View {
         Button(action: onPrimaryAction) {
             HStack {
                 Image(systemName: icon)
                 Text(title)
                 Spacer()
-                Image(systemName: destructive ? "chevron.right" : "arrow.right")
+                Image(systemName: "arrow.right")
                     .font(.subheadline.bold())
             }
             .font(.headline)
-            .foregroundStyle(destructive ? .white : PCTheme.ink)
+            .foregroundStyle(PCTheme.ink)
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, minHeight: 58)
-            .background(destructive ? PCTheme.coral : PCTheme.lime, in: RoundedRectangle(cornerRadius: 18))
+            .background(PCTheme.lime, in: RoundedRectangle(cornerRadius: 18))
         }
         .buttonStyle(.plain)
     }

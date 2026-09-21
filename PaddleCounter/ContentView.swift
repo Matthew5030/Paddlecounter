@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var context
@@ -9,15 +10,14 @@ struct ContentView: View {
 
     @AppStorage("rallySilenceSeconds") private var silenceSeconds = 3.0
     @AppStorage("minimumRallyHits") private var minimumHits = 1
-    @AppStorage("detectionThreshold") private var detectionThreshold = 0.72
+    @AppStorage("soundSensitivity") private var soundSensitivity = 0.5
 
     @State private var selectedTab = 0
     @State private var errorMessage: String?
     @State private var showingSettings = false
-    @State private var showingDiagnostics = false
 
     private var detectorIsReady: Bool {
-        detector.positiveExamples >= 8 && detector.negativeExamples >= 8
+        detector.positiveExamples >= 8
     }
 
     var body: some View {
@@ -26,12 +26,9 @@ struct ContentView: View {
                 game: game,
                 detector: detector,
                 detectorIsReady: detectorIsReady,
-                silenceSeconds: silenceSeconds,
                 onPrimaryAction: detectorIsReady ? toggleSession : { selectedTab = 1 },
-                onManualHit: { game.hit(confidence: 1, context: context) },
                 onCalibration: { selectedTab = 1 },
-                onSettings: { showingSettings = true },
-                onDiagnostics: { showingDiagnostics = true }
+                onSettings: { showingSettings = true }
             )
             .tag(0)
             .tabItem { Label("Play", systemImage: "waveform") }
@@ -39,6 +36,7 @@ struct ContentView: View {
             CalibrationScreen(
                 detector: detector,
                 sessionIsActive: game.active,
+                soundSensitivity: $soundSensitivity,
                 onError: { errorMessage = $0 }
             )
             .tag(1)
@@ -59,10 +57,11 @@ struct ContentView: View {
             if newTab != 1 && detector.isRunning && !game.active {
                 detector.stop()
             }
+            if !game.active { requestOrientation(.portrait) }
         }
         .onChange(of: silenceSeconds) { _, _ in applySettings() }
         .onChange(of: minimumHits) { _, _ in applySettings() }
-        .onChange(of: detectionThreshold) { _, _ in applySettings() }
+        .onChange(of: soundSensitivity) { _, _ in applySettings() }
         .alert(
             "PaddleCounter",
             isPresented: Binding(
@@ -76,20 +75,18 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showingSettings) {
             SettingsView(
+                detector: detector,
                 silenceSeconds: $silenceSeconds,
                 minimumHits: $minimumHits,
-                detectionThreshold: $detectionThreshold
+                soundSensitivity: $soundSensitivity
             )
-        }
-        .sheet(isPresented: $showingDiagnostics) {
-            DiagnosticsScreen(detector: detector)
         }
     }
 
     private func applySettings() {
         game.silenceSeconds = silenceSeconds
         game.minimumHits = minimumHits
-        detector.threshold = Float(detectionThreshold)
+        detector.sensitivity = soundSensitivity
     }
 
     private func toggleSession() {
@@ -97,6 +94,7 @@ struct ContentView: View {
             if game.active {
                 game.stop(context: context)
                 detector.stop()
+                requestOrientation(.portrait)
                 return
             }
 
@@ -104,9 +102,17 @@ struct ContentView: View {
                 detector.calibrationLabel = nil
                 try await detector.start()
                 game.startSession(context: context)
+                requestOrientation(.landscape)
             } catch {
                 errorMessage = error.localizedDescription
             }
         }
+    }
+
+    private func requestOrientation(_ orientations: UIInterfaceOrientationMask) {
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first else { return }
+        scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientations)) { _ in }
     }
 }

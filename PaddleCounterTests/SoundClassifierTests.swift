@@ -38,6 +38,36 @@ final class SoundClassifierTests: XCTestCase {
         XCTAssertEqual(result.reason, "More paddle-hit examples are needed")
     }
 
+    func testPositiveOnlyProfileCanClassifyHits() {
+        let profile = SoundProfile(
+            positiveExamples: (0..<12).map {
+                makeFeatures(centre: 0.82, variation: Float($0 - 6) * 0.004)
+            },
+            negativeExamples: []
+        )
+        let result = SoundClassifier(threshold: 0.70).classify(
+            makeFeatures(centre: 0.82, variation: 0.004),
+            using: profile
+        )
+
+        XCTAssertTrue(result.accepted)
+        XCTAssertTrue(profile.isReady)
+    }
+
+    func testStandardNoiseFilterRejectsVoiceLikeSound() {
+        let voice = AudioFeatures(
+            embedding: Array(repeating: 0.1, count: AudioFeatures.expectedEmbeddingCount),
+            centroid: 900,
+            highFrequencyRatio: 0.06,
+            peakToRMS: 2.8,
+            rms: 0.09,
+            spectralFlatness: 0.12,
+            zeroCrossingRate: 0.05
+        )
+
+        XCTAssertEqual(StandardNoiseFilter.rejectionReason(for: voice), "Voice-like sound")
+    }
+
     func testProfileRoundTripsWithoutAudio() throws {
         let original = makeProfile()
         let data = try JSONEncoder().encode(original)
