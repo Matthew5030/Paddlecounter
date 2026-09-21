@@ -54,6 +54,7 @@ enum StandardNoiseFilter {
 
 struct SoundClassifier: Sendable {
     var threshold: Float = 0.72
+    var distanceTolerance: Float = 1
 
     func classify(_ candidate: AudioFeatures, using profile: SoundProfile) -> ClassificationResult {
         let positives = profile.positiveExamples.filter(\.isValid)
@@ -73,7 +74,8 @@ struct SoundClassifier: Sendable {
         let scales = featureScales(for: allExamples)
         let positiveDistance = nearestDistance(from: candidate, to: positives, scales: scales)
         let positiveRadius = learnedPositiveRadius(positives, scales: scales)
-        let likeness = exp(-positiveDistance / max(positiveRadius, 0.18))
+        let tolerance = max(distanceTolerance, 1)
+        let likeness = exp(-positiveDistance / max(positiveRadius * tolerance, 0.18))
 
         let confidence: Float
         let negativeDistance: Float?
@@ -82,7 +84,7 @@ struct SoundClassifier: Sendable {
         if negatives.isEmpty {
             negativeDistance = nil
             confidence = likeness
-            if positiveDistance > positiveRadius * 2.1 {
+            if positiveDistance > positiveRadius * 2.1 * tolerance {
                 rejectionReason = "Unlike the learned paddle hits"
             }
         } else {
@@ -94,7 +96,7 @@ struct SoundClassifier: Sendable {
 
             if nearestNegative <= positiveDistance * 1.05 {
                 rejectionReason = "Closer to an ignored sound"
-            } else if positiveDistance > positiveRadius * 2.1 {
+            } else if positiveDistance > positiveRadius * 2.1 * tolerance {
                 rejectionReason = "Unlike the learned paddle hits"
             }
         }

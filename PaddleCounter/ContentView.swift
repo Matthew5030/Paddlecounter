@@ -11,7 +11,8 @@ struct ContentView: View {
 
     @AppStorage("rallySilenceSeconds") private var silenceSeconds = 3.0
     @AppStorage("minimumRallyHits") private var minimumHits = 1
-    @AppStorage("soundSensitivity") private var soundSensitivity = 0.7
+    @AppStorage("soundSensitivity") private var soundSensitivity = 0.9
+    @AppStorage("sensitivityTuningVersion") private var sensitivityTuningVersion = 0
     @AppStorage("milestoneSoundsEnabled") private var milestoneSoundsEnabled = true
 
     @State private var selectedTab = 0
@@ -50,6 +51,10 @@ struct ContentView: View {
         }
         .tint(PCTheme.lime)
         .task {
+            if sensitivityTuningVersion < 2 {
+                soundSensitivity = max(soundSensitivity, 0.9)
+                sensitivityTuningVersion = 2
+            }
             detector.onHit = { confidence in
                 game.hit(confidence: confidence, context: context)
             }

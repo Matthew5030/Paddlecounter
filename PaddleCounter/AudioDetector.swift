@@ -22,11 +22,16 @@ final class AudioDetector: ObservableObject {
     @Published var calibrationLabel: CalibrationLabel?
 
     var onHit: ((Float) -> Void)?
-    var sensitivity: Double = 0.7
+    var sensitivity: Double = 0.9
 
     var classificationThreshold: Float {
         let level = Float(min(max(sensitivity, 0), 1))
-        return 0.78 - level * 0.26
+        return 0.70 - level * 0.38
+    }
+
+    var profileDistanceTolerance: Float {
+        let level = Float(min(max(sensitivity, 0), 1))
+        return 1.4 + level * 2.0
     }
 
     private let engine = AVAudioEngine()
@@ -133,10 +138,10 @@ final class AudioDetector: ObservableObject {
         // Let the learned paddle profile do most of the rejecting. This gate only
         // needs to find a plausible short impact, including quieter hits across a court.
         let level = min(max(sensitivity, 0), 1)
-        let onsetMultiplier = Float(2.55 - level * 1.25)
-        let minimumPeakRatio = Float(2.15 - level * 0.75)
-        let absoluteFloor = Float(0.006 - level * 0.0035)
-        let riseMultiplier = Float(1.08 - level * 0.04)
+        let onsetMultiplier = Float(2.0 - level * 0.8)
+        let minimumPeakRatio = Float(1.9 - level * 0.65)
+        let absoluteFloor = Float(0.0045 - level * 0.003)
+        let riseMultiplier = Float(1.04 - level * 0.03)
         let adaptiveFloor = max(absoluteFloor, noiseFloor * onsetMultiplier)
         let hasOnset = features.rms > adaptiveFloor &&
             features.peakToRMS > minimumPeakRatio &&
@@ -179,7 +184,10 @@ final class AudioDetector: ObservableObject {
             return
         }
 
-        let classifier = SoundClassifier(threshold: classificationThreshold)
+        let classifier = SoundClassifier(
+            threshold: classificationThreshold,
+            distanceTolerance: profileDistanceTolerance
+        )
         let result = classifier.classify(features, using: CalibrationStore.shared.profile)
         lastConfidence = result.confidence
         let event = DetectionEvent(

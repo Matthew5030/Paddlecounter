@@ -92,13 +92,33 @@ final class SoundClassifierTests: XCTestCase {
         let detector = AudioDetector()
 
         detector.sensitivity = 0
-        XCTAssertEqual(detector.classificationThreshold, 0.78, accuracy: 0.001)
+        XCTAssertEqual(detector.classificationThreshold, 0.70, accuracy: 0.001)
+        XCTAssertEqual(detector.profileDistanceTolerance, 1.4, accuracy: 0.001)
 
         detector.sensitivity = 0.7
-        XCTAssertEqual(detector.classificationThreshold, 0.598, accuracy: 0.001)
+        XCTAssertEqual(detector.classificationThreshold, 0.434, accuracy: 0.001)
+        XCTAssertEqual(detector.profileDistanceTolerance, 2.8, accuracy: 0.001)
 
         detector.sensitivity = 1
-        XCTAssertEqual(detector.classificationThreshold, 0.52, accuracy: 0.001)
+        XCTAssertEqual(detector.classificationThreshold, 0.32, accuracy: 0.001)
+        XCTAssertEqual(detector.profileDistanceTolerance, 3.4, accuracy: 0.001)
+    }
+
+    func testHighSensitivityAcceptsAQuieterProfileVariation() {
+        let profile = SoundProfile(
+            positiveExamples: (0..<12).map {
+                makeFeatures(centre: 0.82, variation: Float($0 - 6) * 0.004)
+            },
+            negativeExamples: []
+        )
+        let quieterVariation = makeFeatures(centre: 0.70, variation: -0.02)
+
+        let strict = SoundClassifier(threshold: 0.70).classify(quieterVariation, using: profile)
+        let sensitive = SoundClassifier(threshold: 0.36, distanceTolerance: 3.2)
+            .classify(quieterVariation, using: profile)
+
+        XCTAssertFalse(strict.accepted)
+        XCTAssertTrue(sensitive.accepted)
     }
 
     private func makeProfile() -> SoundProfile {
