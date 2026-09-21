@@ -1,12 +1,81 @@
 import Foundation
 import SwiftData
-@MainActor final class GameController: ObservableObject {
- @Published var currentHits=0; @Published var active=false
- var silenceSeconds:TimeInterval=3; var minimumHits=2
- private var start:Date?,lastHit:Date?,timer:Timer?;var session:SessionRecord?
- func startSession(context:ModelContext){let s=SessionRecord();context.insert(s);session=s;currentHits=0;active=true;timer=Timer.scheduledTimer(withTimeInterval:0.25,repeats:true){[weak self]_ in Task{@MainActor in self?.tick(context)}}}
- func hit(context:ModelContext){guard active else{return};if currentHits==0{start = .now};currentHits += 1;lastHit = .now}
- private func tick(_ context:ModelContext){guard currentHits>0,let h=lastHit,Date().timeIntervalSince(h)>=silenceSeconds else{return};finishRally(context)}
- func finishRally(_ context:ModelContext){guard currentHits>0 else{return};if currentHits>=minimumHits,let s=start{let r=RallyRecord(startedAt:s,endedAt:lastHit ?? .now,hits:currentHits);r.session=session;context.insert(r)};currentHits=0;start=nil;lastHit=nil;try? context.save()}
- func stop(context:ModelContext){finishRally(context);session?.endedAt = .now;active=false;timer?.invalidate();timer=nil;try? context.save()}
+
+@MainActor
+final class GameController: ObservableObject {
+    @Published private(set) var currentHits = 0
+    @Published private(set) var active = false
+
+    var silenceSeconds: TimeInterval = 3
+    var minimumHits = 1
+
+    private var rallyStartedAt: Date?
+    private var lastHitAt: Date?
+    private var confidences: [Float] = []
+    private var timer: Timer?
+    private var session: SessionRecord?
+    private var modelContext: ModelContext?
+
+    func startSession(context: ModelContext) {
+        guard !active else { return }
+        let newSession = SessionRecord()
+        context.insert(newSession)
+        session = newSession
+        modelContext = context
+        currentHits = 0
+        confidences = []
+        active = true
+        timer = Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.tick()
+            }
+        }
+    }
+
+    func hit(confidence: Float, context: ModelContext) {
+        guard active else { return }
+        if currentHits == 0 { rallyStartedAt = .now }
+        currentHits += 1
+        confidences.append(confidence)
+        lastHitAt = .now
+    }
+
+    private func tick() {
+        guard currentHits > 0,
+              let lastHitAt,
+              let modelContext,
+              Date().timeIntervalSince(lastHitAt) >= silenceSeconds else { return }
+        finishRally(modelContext)
+    }
+
+    func finishRally(_ context: ModelContext) {
+        guard currentHits > 0 else { return }
+        if currentHits >= minimumHits, let startedAt = rallyStartedAt {
+            let average = confidences.isEmpty ? 0 : confidences.reduce(0, +) / Float(confidences.count)
+            let rally = RallyRecord(
+                startedAt: startedAt,
+                endedAt: lastHitAt ?? .now,
+                hits: currentHits,
+                averageConfidence: Double(average),
+                minimumConfidence: Double(confidences.min() ?? 0)
+            )
+            rally.session = session
+            context.insert(rally)
+        }
+        currentHits = 0
+        rallyStartedAt = nil
+        lastHitAt = nil
+        confidences = []
+        try? context.save()
+    }
+
+    func stop(context: ModelContext) {
+        finishRally(context)
+        session?.endedAt = .now
+        active = false
+        timer?.invalidate()
+        timer = nil
+        modelContext = nil
+        try? context.save()
+    }
 }

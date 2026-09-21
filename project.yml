@@ -14,3 +14,10 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_NSMicrophoneUsageDescription: "PaddleCounter listens for paddle hits to count rallies. Audio is processed on your device."
         TARGETED_DEVICE_FAMILY: "1"
+  PaddleCounterTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [PaddleCounterTests]
+    dependencies:
+      - target: PaddleCounter

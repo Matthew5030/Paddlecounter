@@ -1,15 +1,68 @@
 import Foundation
-struct AudioFeatures { let centroid: Float; let highRatio: Float; let peakToRMS: Float; let rms: Float }
-struct SoundProfile: Codable { var centroid: Float; var highRatio: Float; var peakToRMS: Float; var rms: Float; var count: Int }
+
+enum CalibrationLabel: String, Codable, Sendable {
+    case paddleHit
+    case ignoredSound
+}
+
+struct SoundProfile: Codable, Equatable {
+    static let currentVersion = 2
+
+    var version: Int = Self.currentVersion
+    var positiveExamples: [AudioFeatures] = []
+    var negativeExamples: [AudioFeatures] = []
+
+    var positiveCount: Int { positiveExamples.count }
+    var negativeCount: Int { negativeExamples.count }
+    var isReady: Bool { positiveCount >= 8 && negativeCount >= 8 }
+}
+
 final class CalibrationStore {
- static let shared = CalibrationStore(); private let key="paddleSoundProfile"
- var profile: SoundProfile? {
-  get { guard let d=UserDefaults.standard.data(forKey:key) else{return nil}; return try? JSONDecoder().decode(SoundProfile.self,from:d) }
-  set { if let v=newValue,let d=try? JSONEncoder().encode(v){UserDefaults.standard.set(d,forKey:key)}else{UserDefaults.standard.removeObject(forKey:key)} }
- }
- func add(_ f: AudioFeatures) {
-  let n=Float(profile?.count ?? 0), p=profile ?? SoundProfile(centroid:0,highRatio:0,peakToRMS:0,rms:0,count:0)
-  profile=SoundProfile(centroid:(p.centroid*n+f.centroid)/(n+1),highRatio:(p.highRatio*n+f.highRatio)/(n+1),peakToRMS:(p.peakToRMS*n+f.peakToRMS)/(n+1),rms:(p.rms*n+f.rms)/(n+1),count:p.count+1)
- }
- func reset(){profile=nil}
+    static let shared = CalibrationStore()
+
+    private let key = "paddleSoundProfileV2"
+    private let legacyKey = "paddleSoundProfile"
+    private let maximumExamplesPerClass = 80
+
+    private init() {}
+
+    var profile: SoundProfile {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: key),
+                  let profile = try? JSONDecoder().decode(SoundProfile.self, from: data) else {
+                return SoundProfile()
+            }
+            return profile
+        }
+        set {
+            guard let data = try? JSONEncoder().encode(newValue) else { return }
+            UserDefaults.standard.set(data, forKey: key)
+        }
+    }
+
+    var hasLegacyCalibration: Bool {
+        UserDefaults.standard.data(forKey: legacyKey) != nil
+    }
+
+    func add(_ features: AudioFeatures, label: CalibrationLabel) {
+        var updated = profile
+        switch label {
+        case .paddleHit:
+            updated.positiveExamples.append(features)
+            if updated.positiveExamples.count > maximumExamplesPerClass {
+                updated.positiveExamples.removeFirst(updated.positiveExamples.count - maximumExamplesPerClass)
+            }
+        case .ignoredSound:
+            updated.negativeExamples.append(features)
+            if updated.negativeExamples.count > maximumExamplesPerClass {
+                updated.negativeExamples.removeFirst(updated.negativeExamples.count - maximumExamplesPerClass)
+            }
+        }
+        profile = updated
+    }
+
+    func reset() {
+        UserDefaults.standard.removeObject(forKey: key)
+        UserDefaults.standard.removeObject(forKey: legacyKey)
+    }
 }
