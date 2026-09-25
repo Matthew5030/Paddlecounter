@@ -19,7 +19,7 @@ struct CalibrationScreen: View {
             PCBackground(accent: stageColour)
 
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
+                VStack(spacing: 18) {
                     header
                     stepIndicator
 
@@ -29,9 +29,11 @@ struct CalibrationScreen: View {
                         stageContent
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-                .padding(.bottom, 110)
+                .frame(maxWidth: PCTheme.contentWidth)
+                .padding(.horizontal, PCTheme.pageInset)
+                .padding(.top, 10)
+                .padding(.bottom, 30)
+                .frame(maxWidth: .infinity)
             }
         }
         .preferredColorScheme(.dark)
@@ -131,7 +133,7 @@ struct CalibrationScreen: View {
     ) -> some View {
         let isRecording = detector.isRunning && detector.calibrationLabel == label
 
-        return VStack(spacing: 22) {
+        return VStack(spacing: 18) {
             VStack(spacing: 9) {
                 Text(eyebrow)
                     .font(.caption.bold())
@@ -149,19 +151,19 @@ struct CalibrationScreen: View {
             ZStack {
                 Circle()
                     .stroke(stageColour.opacity(isRecording ? 0.16 : 0.07), lineWidth: 22)
-                    .frame(width: 190, height: 190)
+                    .frame(width: 164, height: 164)
                     .scaleEffect(isRecording ? 1.06 : 1)
                     .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: isRecording)
                 Circle()
                     .fill(stageColour.opacity(0.12))
-                    .frame(width: 152, height: 152)
+                    .frame(width: 132, height: 132)
                     .overlay(Circle().stroke(stageColour.opacity(0.32)))
                 VStack(spacing: 7) {
                     Image(systemName: isRecording ? "waveform" : symbol)
-                        .font(.system(size: 31, weight: .bold))
+                        .font(.system(size: 27, weight: .bold))
                         .foregroundStyle(stageColour)
                     Text("\(count)")
-                        .font(.system(size: 42, weight: .black, design: .rounded))
+                        .font(.system(size: 36, weight: .black, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(.white)
                     Text(isRecording ? "LISTENING" : "EXAMPLES")
@@ -213,7 +215,7 @@ struct CalibrationScreen: View {
             .buttonStyle(.plain)
             .disabled(count < minimum)
         }
-        .padding(22)
+        .padding(20)
         .pcCard()
     }
 
@@ -221,13 +223,13 @@ struct CalibrationScreen: View {
         let testing = detector.isRunning && detector.calibrationLabel == nil
         let ready = detector.positiveExamples >= 8
 
-        return VStack(spacing: 20) {
+        return VStack(spacing: 18) {
             ZStack {
                 Circle()
                     .fill(ready ? PCTheme.lime.opacity(0.14) : PCTheme.coral.opacity(0.14))
-                    .frame(width: 104, height: 104)
+                    .frame(width: 90, height: 90)
                 Image(systemName: ready ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
-                    .font(.system(size: 45))
+                    .font(.system(size: 39))
                     .foregroundStyle(ready ? PCTheme.lime : PCTheme.coral)
             }
 
@@ -286,7 +288,7 @@ struct CalibrationScreen: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(PCTheme.textSecondary)
         }
-        .padding(22)
+        .padding(20)
         .pcCard()
     }
 

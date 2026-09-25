@@ -34,7 +34,7 @@ struct ContentView: View {
                 onSettings: { showingSettings = true }
             )
             .tag(0)
-            .tabItem { Label("Play", systemImage: "waveform") }
+            .tabItem { Label("Play", systemImage: "tennis.racket") }
 
             CalibrationScreen(
                 detector: detector,
@@ -50,6 +50,9 @@ struct ContentView: View {
                 .tabItem { Label("History", systemImage: "chart.bar.fill") }
         }
         .tint(PCTheme.lime)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbarBackground(PCTheme.ink.opacity(0.96), for: .tabBar)
+        .statusBarHidden(game.active)
         .task {
             if sensitivityTuningVersion < 2 {
                 soundSensitivity = max(soundSensitivity, 0.9)
@@ -75,6 +78,9 @@ struct ContentView: View {
         .onChange(of: minimumHits) { _, _ in applySettings() }
         .onChange(of: soundSensitivity) { _, _ in applySettings() }
         .onChange(of: milestoneSoundsEnabled) { _, _ in applySettings() }
+        .onChange(of: game.active) { _, active in
+            UIApplication.shared.isIdleTimerDisabled = active
+        }
         .alert(
             "PaddleCounter",
             isPresented: Binding(

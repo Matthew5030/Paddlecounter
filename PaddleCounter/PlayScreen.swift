@@ -29,20 +29,25 @@ struct PlayScreen: View {
             PCBackground(accent: PCTheme.lime)
 
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 22) {
+                VStack(spacing: 18) {
                     header
-                    status
-                    counterCard
 
                     if detectorIsReady {
-                        readyControls
+                        readyCard
                     } else {
                         setupCard
                     }
+
+                    Label("Audio is processed privately on this iPhone", systemImage: "lock.shield.fill")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.72))
+                        .padding(.top, 2)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-                .padding(.bottom, 110)
+                .frame(maxWidth: PCTheme.contentWidth)
+                .padding(.horizontal, PCTheme.pageInset)
+                .padding(.top, 10)
+                .padding(.bottom, 30)
+                .frame(maxWidth: .infinity)
             }
         }
         .preferredColorScheme(.dark)
@@ -52,6 +57,8 @@ struct PlayScreen: View {
         GeometryReader { proxy in
             ZStack {
                 PCBackground(accent: PCTheme.lime)
+
+                Color.black.opacity(0.05)
 
                 if let celebration {
                     MilestoneBurst(celebration: celebration)
@@ -73,14 +80,15 @@ struct PlayScreen: View {
                     .shadow(color: PCTheme.ink.opacity(0.42), radius: 3, y: 3)
                     .scaleEffect(celebration == nil ? 1 : 1.08)
                     .animation(.spring(duration: 0.34, bounce: 0.52), value: celebration)
-                    .padding(.horizontal, 120)
+                    .padding(.horizontal, max(84, proxy.safeAreaInsets.leading + proxy.safeAreaInsets.trailing + 40))
+                    .accessibilityLabel("\(game.currentHits) hits")
 
                 VStack {
                     HStack {
                         PCStatusPill(title: "Listening", colour: PCTheme.lime, pulses: true)
                         Spacer()
                         Button(action: onPrimaryAction) {
-                            Label("Finish", systemImage: "stop.fill")
+                            Label("End session", systemImage: "stop.fill")
                                 .font(.subheadline.bold())
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 16)
@@ -92,7 +100,10 @@ struct PlayScreen: View {
                     }
                     Spacer()
                 }
-                .padding(20)
+                .padding(.top, proxy.safeAreaInsets.top + 12)
+                .padding(.bottom, proxy.safeAreaInsets.bottom + 12)
+                .padding(.leading, proxy.safeAreaInsets.leading + 18)
+                .padding(.trailing, proxy.safeAreaInsets.trailing + 18)
             }
         }
         .ignoresSafeArea()
@@ -132,63 +143,45 @@ struct PlayScreen: View {
         }
     }
 
-    private var status: some View {
-        HStack {
-            PCStatusPill(
-                title: detectorIsReady ? "Ready to play" : "Setup needed",
-                colour: detectorIsReady ? PCTheme.aqua : PCTheme.coral
-            )
-            Spacer()
-        }
-    }
+    private var readyCard: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack(alignment: .top) {
+                PCStatusPill(title: "Ready to play", colour: PCTheme.lime)
+                Spacer()
+                Image(systemName: "tennis.racket")
+                    .font(.system(size: 40, weight: .black))
+                    .foregroundStyle(PCTheme.lime)
+                    .rotationEffect(.degrees(-12))
+                    .accessibilityHidden(true)
+            }
 
-    private var counterCard: some View {
-        VStack(spacing: 8) {
-            Text("HITS")
-                .font(.caption.weight(.bold))
-                .tracking(1.8)
-                .foregroundStyle(PCTheme.textSecondary)
+            VStack(alignment: .leading, spacing: 7) {
+                Text("Turn. Set. Rally.")
+                    .font(.system(.largeTitle, design: .rounded, weight: .black))
+                    .foregroundStyle(.white)
+                Text("Place your phone near the court, turn it sideways and let PaddleCounter handle the score.")
+                    .font(.subheadline)
+                    .foregroundStyle(PCTheme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
-            Text("\(game.currentHits)")
-                .font(.system(size: 122, weight: .black, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(.white)
-                .minimumScaleFactor(0.55)
-                .lineLimit(1)
-                .contentTransition(.numericText(value: Double(game.currentHits)))
-                .animation(.snappy, value: game.currentHits)
+            HStack(spacing: 10) {
+                featureChip("Automatic rallies", icon: "timer")
+                featureChip("Hands-free", icon: "waveform")
+            }
 
-            Text(detectorIsReady ? "Turn sideways, put your phone down and play" : "Calibrate once, then play hands-free")
-                .font(.subheadline)
-                .foregroundStyle(PCTheme.textSecondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 27)
-        .padding(.horizontal, 20)
-        .background(
-            LinearGradient(
-                colors: [PCTheme.inkRaised, PCTheme.ink],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: 30, style: .continuous)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .stroke(PCTheme.border)
-        )
-    }
-
-    private var readyControls: some View {
-        VStack(spacing: 13) {
-            primaryButton(title: "Start session", icon: "play.fill")
+            PCPrimaryButton(title: "Start session", systemImage: "play.fill", action: onPrimaryAction)
 
             Button(action: onCalibration) {
-                Text("Retune the detector")
+                Label("Retune paddle sound", systemImage: "scope")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(PCTheme.textSecondary)
+                    .foregroundStyle(.white.opacity(0.78))
+                    .frame(maxWidth: .infinity)
             }
+            .buttonStyle(.plain)
         }
+        .padding(22)
+        .pcCard()
     }
 
     private var setupCard: some View {
@@ -212,7 +205,7 @@ struct PlayScreen: View {
 
             setupProgress(title: "Paddle hits", count: detector.positiveExamples)
 
-            primaryButton(title: "Set up detector", icon: "scope")
+            PCPrimaryButton(title: "Set up detector", systemImage: "scope", action: onPrimaryAction)
         }
         .padding(20)
         .pcCard()
@@ -231,22 +224,15 @@ struct PlayScreen: View {
         .background(Color.white.opacity(0.06), in: Capsule())
     }
 
-    private func primaryButton(title: String, icon: String) -> some View {
-        Button(action: onPrimaryAction) {
-            HStack {
-                Image(systemName: icon)
-                Text(title)
-                Spacer()
-                Image(systemName: "arrow.right")
-                    .font(.subheadline.bold())
-            }
-            .font(.headline)
-            .foregroundStyle(PCTheme.ink)
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity, minHeight: 58)
-            .background(PCTheme.lime, in: RoundedRectangle(cornerRadius: 18))
-        }
-        .buttonStyle(.plain)
+    private func featureChip(_ title: String, icon: String) -> some View {
+        Label(title, systemImage: icon)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.white.opacity(0.86))
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 10)
+            .background(Color.white.opacity(0.07), in: RoundedRectangle(cornerRadius: 12))
     }
 }
 

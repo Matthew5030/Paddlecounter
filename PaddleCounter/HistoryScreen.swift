@@ -12,12 +12,13 @@ struct HistoryScreen: View {
             ZStack {
                 PCBackground(accent: PCTheme.aqua)
 
-                if sessions.isEmpty {
-                    emptyState
-                } else {
-                    ScrollView(showsIndicators: false) {
-                        LazyVStack(spacing: 18) {
-                            header
+                ScrollView(showsIndicators: false) {
+                    LazyVStack(spacing: 18) {
+                        header
+
+                        if sessions.isEmpty {
+                            emptyState
+                        } else {
                             overview
 
                             HStack {
@@ -41,10 +42,12 @@ struct HistoryScreen: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 12)
-                        .padding(.bottom, 110)
                     }
+                    .frame(maxWidth: PCTheme.contentWidth)
+                    .padding(.horizontal, PCTheme.pageInset)
+                    .padding(.top, 10)
+                    .padding(.bottom, 30)
+                    .frame(maxWidth: .infinity)
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
@@ -53,24 +56,12 @@ struct HistoryScreen: View {
     }
 
     private var header: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("YOUR PLAY")
-                    .font(.caption.bold())
-                    .tracking(1.5)
-                    .foregroundStyle(PCTheme.aqua)
-                Text("History")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-            }
-            Spacer()
-            Image(systemName: "chart.line.uptrend.xyaxis")
-                .font(.title2.bold())
-                .foregroundStyle(PCTheme.aqua)
-                .frame(width: 48, height: 48)
-                .background(Color.white.opacity(0.08), in: Circle())
-                .overlay(Circle().stroke(PCTheme.border))
-        }
+        PCPageHeader(
+            eyebrow: "Your play",
+            title: "History",
+            accent: PCTheme.aqua,
+            systemImage: "chart.line.uptrend.xyaxis"
+        )
     }
 
     private var overview: some View {
@@ -112,7 +103,10 @@ struct HistoryScreen: View {
                 .foregroundStyle(PCTheme.textSecondary)
                 .frame(maxWidth: 290)
         }
-        .padding(30)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 42)
+        .padding(.horizontal, 24)
+        .pcCard()
     }
 }
 
@@ -234,8 +228,11 @@ private struct SessionDetailScreen: View {
                         .pcCard()
                     }
                 }
-                .padding(20)
+                .frame(maxWidth: PCTheme.contentWidth)
+                .padding(.horizontal, PCTheme.pageInset)
+                .padding(.top, 18)
                 .padding(.bottom, 30)
+                .frame(maxWidth: .infinity)
             }
         }
         .navigationTitle(session.startedAt.formatted(date: .abbreviated, time: .omitted))

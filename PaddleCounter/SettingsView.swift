@@ -111,48 +111,41 @@ struct SettingsView: View {
 }
 
 struct DiagnosticsScreen: View {
-    @Environment(\.dismiss) private var dismiss
     @ObservedObject var detector: AudioDetector
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                PCBackground(accent: PCTheme.aqua)
+        ZStack {
+            PCBackground(accent: PCTheme.aqua)
 
-                if detector.recentEvents.isEmpty {
-                    VStack(spacing: 14) {
-                        Image(systemName: "waveform.badge.magnifyingglass")
-                            .font(.system(size: 48))
-                            .foregroundStyle(PCTheme.aqua)
-                        Text("No candidates yet")
-                            .font(.title3.bold())
-                            .foregroundStyle(.white)
-                        Text("Sharp sounds will appear here while the detector is listening.")
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(PCTheme.textSecondary)
-                    }
-                    .padding(30)
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 11) {
-                            ForEach(detector.recentEvents) { event in
-                                diagnosticRow(event)
-                            }
-                        }
-                        .padding(20)
-                    }
+            if detector.recentEvents.isEmpty {
+                VStack(spacing: 14) {
+                    Image(systemName: "waveform.badge.magnifyingglass")
+                        .font(.system(size: 48))
+                        .foregroundStyle(PCTheme.aqua)
+                    Text("No candidates yet")
+                        .font(.title3.bold())
+                        .foregroundStyle(.white)
+                    Text("Sharp sounds will appear here while the detector is listening.")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(PCTheme.textSecondary)
                 }
-            }
-            .navigationTitle("Detector details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
-                        .foregroundStyle(PCTheme.lime)
+                .padding(30)
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 11) {
+                        ForEach(detector.recentEvents) { event in
+                            diagnosticRow(event)
+                        }
+                    }
+                    .frame(maxWidth: PCTheme.contentWidth)
+                    .padding(PCTheme.pageInset)
+                    .frame(maxWidth: .infinity)
                 }
             }
         }
+        .navigationTitle("Detector details")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .preferredColorScheme(.dark)
     }
 

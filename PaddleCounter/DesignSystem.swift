@@ -12,6 +12,8 @@ enum PCTheme {
     static let textSecondary = Color.white.opacity(0.62)
     static let border = Color.white.opacity(0.16)
     static let panel = inkRaised.opacity(0.94)
+    static let pageInset: CGFloat = 20
+    static let contentWidth: CGFloat = 620
 }
 
 struct PCBackground: View {
@@ -28,23 +30,23 @@ struct PCBackground: View {
 
                 Circle()
                     .fill(PCTheme.lime)
-                    .frame(width: min(proxy.size.width, proxy.size.height) * 0.28)
-                    .blur(radius: 1)
-                    .offset(x: proxy.size.width * 0.36, y: -proxy.size.height * 0.38)
+                    .frame(width: min(max(proxy.size.width * 0.34, 118), 180))
+                    .overlay(Circle().stroke(Color.white.opacity(0.20), lineWidth: 2))
+                    .position(x: proxy.size.width - 28, y: 74)
 
                 Image(systemName: "cloud.fill")
-                    .font(.system(size: min(proxy.size.width, proxy.size.height) * 0.18))
-                    .foregroundStyle(.white.opacity(0.78))
-                    .offset(x: -proxy.size.width * 0.34, y: -proxy.size.height * 0.30)
+                    .font(.system(size: min(max(proxy.size.width * 0.17, 62), 96)))
+                    .foregroundStyle(.white.opacity(0.66))
+                    .position(x: 38, y: 136)
 
                 BeachWave(amplitude: 26)
                     .fill(PCTheme.ocean.opacity(0.92))
-                    .frame(height: proxy.size.height * 0.34)
+                    .frame(height: min(max(proxy.size.height * 0.30, 150), 260))
                     .frame(maxHeight: .infinity, alignment: .bottom)
 
                 BeachWave(amplitude: 18)
                     .fill(PCTheme.sand)
-                    .frame(height: proxy.size.height * 0.17)
+                    .frame(height: min(max(proxy.size.height * 0.12, 72), 120))
                     .frame(maxHeight: .infinity, alignment: .bottom)
 
                 RadialGradient(
@@ -127,6 +129,62 @@ struct PCStatusPill: View {
     }
 }
 
+struct PCPageHeader: View {
+    let eyebrow: String
+    let title: String
+    let accent: Color
+    var systemImage: String?
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(eyebrow.uppercased())
+                    .font(.caption2.bold())
+                    .tracking(1.5)
+                    .foregroundStyle(accent)
+                Text(title)
+                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                    .foregroundStyle(.white)
+            }
+            Spacer(minLength: 12)
+            if let systemImage {
+                Image(systemName: systemImage)
+                    .font(.title3.bold())
+                    .foregroundStyle(accent)
+                    .frame(width: 46, height: 46)
+                    .background(PCTheme.ink.opacity(0.52), in: Circle())
+                    .overlay(Circle().stroke(PCTheme.border))
+            }
+        }
+    }
+}
+
+struct PCPrimaryButton: View {
+    let title: String
+    let systemImage: String
+    var tint: Color = PCTheme.lime
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: systemImage)
+                Text(title)
+                Spacer()
+                Image(systemName: "arrow.right")
+                    .font(.subheadline.bold())
+            }
+            .font(.headline)
+            .foregroundStyle(PCTheme.ink)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, minHeight: 56)
+            .background(tint, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .shadow(color: PCTheme.ink.opacity(0.18), radius: 8, y: 5)
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 struct PCMetric: View {
     let value: String
     let label: String
@@ -152,6 +210,7 @@ struct PCCardModifier: ViewModifier {
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .stroke(PCTheme.border, lineWidth: 1)
             )
+            .shadow(color: PCTheme.ink.opacity(0.14), radius: 14, y: 8)
     }
 }
 
