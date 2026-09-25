@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		106264C60C4FED12A85E2D55 /* AppStoreScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */; };
 		10E64FD1327D8B2E4A547512 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76775D92FC175F384D72F557 /* ContentView.swift */; };
 		1AA1BAE887611BFCCC7FB88F /* RhythmScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */; };
 		1B47B97BFFCB9F8C13A43599 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62095111E61D5FFB98DDC868 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		0768F5B8C267A1273E0580BF /* CalibrationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationScreen.swift; sourceTree = "<group>"; };
 		18EF742EECB9D51521466DA5 /* PlayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayScreen.swift; sourceTree = "<group>"; };
 		1A8B302D9020EAEEFFEBE3F4 /* CalibrationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationStore.swift; sourceTree = "<group>"; };
+		45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotTests.swift; sourceTree = "<group>"; };
 		46786BC1D8EAFF19D7CF7B73 /* PaddleCounterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PaddleCounterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A2B687719C35E7E8592FBC8 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		5D01298B34EDFB211868F66B /* HistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScreen.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		2F235E31F058D87678B7E3CC /* PaddleCounterTests */ = {
 			isa = PBXGroup;
 			children = (
+				45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */,
 				BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */,
 				6326BA0883CB9859C22165C9 /* SoundClassifierTests.swift */,
 			);
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				106264C60C4FED12A85E2D55 /* AppStoreScreenshotTests.swift in Sources */,
 				644DA15EC34F9D4F0AC8EBFC /* RallyRhythmTests.swift in Sources */,
 				487A51CC8BF5EF3E8F5C873E /* SoundClassifierTests.swift in Sources */,
 			);
@@ -305,6 +309,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -384,6 +389,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -403,7 +409,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J8M4ND59V4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PaddleCounter;
@@ -431,7 +437,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J8M4ND59V4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PaddleCounter;

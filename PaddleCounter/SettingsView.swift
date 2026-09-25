@@ -55,6 +55,14 @@ struct SettingsView: View {
                     Section {
                         Label("Audio never leaves this iPhone", systemImage: "lock.shield.fill")
                             .foregroundStyle(PCTheme.textSecondary)
+                        NavigationLink {
+                            PrivacyScreen()
+                        } label: {
+                            Label("Privacy policy", systemImage: "hand.raised.fill")
+                        }
+                        Link(destination: URL(string: "https://bilellaworks.com/apps/paddlecounter/support/")!) {
+                            Label("Help & support", systemImage: "questionmark.circle")
+                        }
                     } header: {
                         Text("Privacy")
                     }
@@ -84,6 +92,33 @@ struct SettingsView: View {
         .preferredColorScheme(.dark)
     }
 
+}
+
+struct PrivacyScreen: View {
+    var body: some View {
+        List {
+            Section("On-device audio") {
+                Text("PaddleCounter analyses microphone audio live on your iPhone to recognise paddle hits. It does not save audio recordings, upload audio or transcribe conversations.")
+            }
+            Section("What stays on your phone") {
+                Text("Numerical calibration features, preferences and session/rally history are saved locally. Recent detection diagnostics are held in memory. There are no accounts, advertisements, tracking or third-party analytics.")
+            }
+            Section("Your controls") {
+                Text("You can revoke microphone permission in iOS Settings. Reset calibration to remove its saved sound profile. To remove all local app data, including rally history, delete the app rather than offloading it. Apple device backups may retain an earlier copy.")
+            }
+            Section("Policy & contact") {
+                Link("Read the full privacy policy", destination: URL(string: "https://bilellaworks.com/apps/paddlecounter/privacy/")!)
+                Link("Email Bilella Works", destination: URL(string: "mailto:bilellaworks@gmail.com?subject=PaddleCounter%20privacy")!)
+                Text("If you contact support, we receive the information you choose to send. The full policy explains support email, website hosting, retention and your privacy rights.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(PCTheme.ink)
+        .navigationTitle("Privacy")
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }
 
 struct DiagnosticsScreen: View {
