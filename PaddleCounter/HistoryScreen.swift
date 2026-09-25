@@ -14,8 +14,6 @@ struct HistoryScreen: View {
 
                 ScrollView(showsIndicators: false) {
                     LazyVStack(spacing: 18) {
-                        header
-
                         if sessions.isEmpty {
                             emptyState
                         } else {
@@ -50,18 +48,14 @@ struct HistoryScreen: View {
                     .frame(maxWidth: .infinity)
                 }
             }
-            .toolbar(.hidden, for: .navigationBar)
+            .navigationTitle("History")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.visible, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(PCTheme.ink, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
         }
         .preferredColorScheme(.dark)
-    }
-
-    private var header: some View {
-        PCPageHeader(
-            eyebrow: "Your play",
-            title: "History",
-            accent: PCTheme.aqua,
-            systemImage: "chart.line.uptrend.xyaxis"
-        )
     }
 
     private var overview: some View {
