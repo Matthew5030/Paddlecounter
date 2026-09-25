@@ -22,6 +22,26 @@ Only feature vectors and detection metadata are retained. Raw microphone audio a
 
 Changing the phone position or acoustic environment substantially should be followed by a new calibration.
 
+## Rally rhythm
+
+Open History → session → rally to see pace over time, individual gaps, timing variation,
+opening/closing pace change, alternating long/short gaps and the quickest sustained stretch.
+The session chart compares each rally's average hits per minute.
+
+New rallies store relative recognised-hit times from a monotonic clock; no audio is retained.
+Average pace is `(hits - 1) × 60 / elapsed seconds`, excluding breaks between rallies.
+The pace line uses up to five trailing intervals; the gap chart shows unsmoothed intervals.
+Timing variation is the population standard deviation divided by the mean gap (at least
+five hits). Under 10% is labelled Clockwork, under 25% Mostly steady, otherwise Changing rhythm.
+Opening/closing comparisons require ten hits and compare the first and last thirds of the
+intervals; changes above 15% receive a speeding-up/slowing-down label. Alternating patterns
+require eight gaps, at least 25% contrast and 75% agreement across adjacent pairs.
+These are descriptive heuristics, not calibrated skill or accuracy scores. The app cannot
+attribute gaps to players or measure ball speed, and detection errors affect these statistics.
+
+Existing rallies retain average pace from their saved start/end times. Detailed graphs are
+only shown when a complete, strictly increasing list of hit timings is available.
+
 ## Build
 
 The project is generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen):

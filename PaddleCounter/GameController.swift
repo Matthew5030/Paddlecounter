@@ -16,6 +16,8 @@ final class GameController: ObservableObject {
     private var rallyStartedAt: Date?
     private var lastHitAt: Date?
     private var confidences: [Float] = []
+    private var hitOffsets: [Double] = []
+    private var rallyStartedUptime: TimeInterval?
     private var timer: Timer?
     private var session: SessionRecord?
     private var modelContext: ModelContext?
@@ -31,6 +33,8 @@ final class GameController: ObservableObject {
         completedRallies = 0
         bestRally = 0
         confidences = []
+        hitOffsets = []
+        rallyStartedUptime = nil
         active = true
         timer = Timer.scheduledTimer(withTimeInterval: 0.20, repeats: true) { [weak self] _ in
             Task { @MainActor in
@@ -39,9 +43,13 @@ final class GameController: ObservableObject {
         }
     }
 
-    func hit(confidence: Float, context: ModelContext) {
+    func hit(confidence: Float, context: ModelContext, uptime: TimeInterval = ProcessInfo.processInfo.systemUptime) {
         guard active else { return }
-        if currentHits == 0 { rallyStartedAt = .now }
+        if currentHits == 0 {
+            rallyStartedAt = .now
+            rallyStartedUptime = uptime
+        }
+        hitOffsets.append(uptime - (rallyStartedUptime ?? uptime))
         currentHits += 1
         sessionTotalHits += 1
         confidences.append(confidence)
@@ -68,7 +76,8 @@ final class GameController: ObservableObject {
                 endedAt: lastHitAt ?? .now,
                 hits: currentHits,
                 averageConfidence: Double(average),
-                minimumConfidence: Double(confidences.min() ?? 0)
+                minimumConfidence: Double(confidences.min() ?? 0),
+                hitOffsets: hitOffsets
             )
             rally.session = session
             context.insert(rally)
@@ -79,6 +88,8 @@ final class GameController: ObservableObject {
         rallyStartedAt = nil
         lastHitAt = nil
         confidences = []
+        hitOffsets = []
+        rallyStartedUptime = nil
         try? context.save()
     }
 

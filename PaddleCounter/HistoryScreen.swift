@@ -202,30 +202,40 @@ private struct SessionDetailScreen: View {
                     .padding(20)
                     .pcCard()
 
+                    SessionPaceCard(rallies: rallies)
+
                     ForEach(Array(rallies.enumerated()), id: \.element.id) { index, rally in
-                        HStack(spacing: 15) {
-                            Text("\(index + 1)")
-                                .font(.caption.bold().monospacedDigit())
-                                .foregroundStyle(PCTheme.ink)
-                                .frame(width: 34, height: 34)
-                                .background(rally.hits == session.best ? PCTheme.lime : PCTheme.aqua, in: Circle())
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text("\(rally.hits) hits")
-                                    .font(.headline)
-                                    .foregroundStyle(.white)
-                                Text(rally.startedAt.formatted(date: .omitted, time: .standard))
-                                    .font(.caption)
+                        NavigationLink {
+                            RhythmScreen(rally: rally, number: index + 1)
+                        } label: {
+                            HStack(spacing: 15) {
+                                Text("\(index + 1)")
+                                    .font(.caption.bold().monospacedDigit())
+                                    .foregroundStyle(PCTheme.ink)
+                                    .frame(width: 34, height: 34)
+                                    .background(rally.hits == session.best ? PCTheme.lime : PCTheme.aqua, in: Circle())
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text("\(rally.hits) hits")
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                    Text(rally.startedAt.formatted(date: .omitted, time: .standard))
+                                        .font(.caption)
+                                        .foregroundStyle(PCTheme.textSecondary)
+                                }
+                                Spacer()
+                                if let rate = rally.averageHitRate {
+                                    Text("\(rate.formatted(.number.precision(.fractionLength(0))))/min")
+                                        .font(.subheadline.bold().monospacedDigit())
+                                        .foregroundStyle(PCTheme.textSecondary)
+                                }
+                                Image(systemName: "chevron.right")
+                                    .font(.caption.bold())
                                     .foregroundStyle(PCTheme.textSecondary)
                             }
-                            Spacer()
-                            if rally.averageConfidence > 0 {
-                                Text(rally.averageConfidence, format: .percent.precision(.fractionLength(0)))
-                                    .font(.subheadline.bold().monospacedDigit())
-                                    .foregroundStyle(PCTheme.textSecondary)
-                            }
+                            .padding(16)
+                            .pcCard()
                         }
-                        .padding(16)
-                        .pcCard()
+                        .buttonStyle(.plain)
                     }
                 }
                 .frame(maxWidth: PCTheme.contentWidth)
@@ -237,6 +247,7 @@ private struct SessionDetailScreen: View {
         }
         .navigationTitle(session.startedAt.formatted(date: .abbreviated, time: .omitted))
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.visible, for: .navigationBar)
         .toolbarBackground(PCTheme.ink.opacity(0.95), for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
     }
