@@ -1,5 +1,17 @@
 # App Store release
 
+## Current status — submitted 25 September 2026
+
+- Version **1.0 (build 2)** is **Waiting for Review**, confirmed in App Store Connect after final submission.
+- Submission ID: `d039cf18-5f8f-4a63-b746-06ecf7daf49c`.
+- [Review submission](https://appstoreconnect.apple.com/apps/6815980361/distribution/reviewsubmissions/details/d039cf18-5f8f-4a63-b746-06ecf7daf49c).
+- Free pricing and 175-country/region availability are configured. Manual release after approval remains selected; the app is not publicly released yet.
+- With user approval, website commit `9e74b1c7315c4f06aba4e11aa989705678253c5e` was pushed to the existing GitHub/Cloudflare production pipeline. Cloudflare Pages completed successfully (deployment `d287bbc9-2499-4e32-ae8e-0cdb4e7a5fbb`). The live privacy page and support redirect/FAQs were verified before final Apple submission:
+  - https://bilellaworks.com/apps/paddlecounter/privacy/
+  - https://bilellaworks.com/apps/paddlecounter/support/
+- Private review contact details remain only in App Store Connect, not on the public website or in source control.
+- Next release gate: Apple approval, then manual release. The entries below are historical preparation notes, not outstanding submission requirements.
+
 ## Identity
 
 - Bundle ID: `com.matthew5030.PaddleCounter` (explicit App ID registered).
@@ -20,7 +32,7 @@
 - Free pricing saved for 175 countries/regions; app availability territories are still unconfigured.
 - PaddleCounter product, privacy and support pages prepared in the Bilella Works Web repository (commit `5f021bf552fbc4f9d961ea4070336bbf44b03fc0`). Static validation, 128 local link checks, desktop/mobile layout and support redirect/FAQ checks passed. Sites archive upload timed out twice, so publication is not confirmed and App Store support/privacy URL fields remain unset. Another task is editing that website checkout; preserve its concurrent changes.
 
-## Still required before submission
+## Original pre-submission checklist (historical)
 
 - Confirm launch territories and configure availability (launch price is free).
 - Supply and verify a public support URL and privacy-policy URL; add a privacy-policy link within the app.
