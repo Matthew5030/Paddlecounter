@@ -34,12 +34,14 @@
 
 - Added an accessible in-app Privacy screen, full privacy-policy link and support link in Settings.
 - Fixed generated Info.plist configuration for the unit-test target so a fresh generated project runs its tests without command-line overrides.
-- Build 2 archived and uploaded successfully on 25 September 2026; build selection and Apple processing still need checking.
+- Build 2 archived, uploaded, processed and selected on 25 September 2026.
 - All 18 existing unit tests pass on iPhone 17 Pro Max / iOS 26.5, plus the screenshot fixture test passes separately.
 - Four 6.9-inch screenshots uploaded: counter, rhythm, calibration and sensitivity/settings. Counter and rhythm figures are illustrative fixture data, disclosed in App Review notes; no fixtures ship in the app.
 - Content rights set to no third-party content; age rating calculated as 4+; worldwide availability configured. Untested Mac and Apple Vision Pro availability disabled.
 - App Review contact details saved only in App Store Connect. Do not copy the private review phone into this repository, screenshots or public pages.
 - No-data-collected privacy declaration is published. Policy, support and marketing URLs are saved in the next-version draft, but live route publication remains a submission gate.
+- Apple accepted Add for Review with no validation errors. Version 1.0 is now Ready for Review with an Item Ready to Submit and a Submit for Review button. Final submission has NOT been clicked because the public policy/support routes are not yet live.
+- The website task handed over its stable current snapshot; all its changes are preserved in site commit `9e74b1c7315c4f06aba4e11aa989705678253c5e`. Native Sites archive uploads still time out. Awaiting the user's answer about using the existing GitHub/Cloudflare production path instead. Do not deploy the obsolete `5f021bf` snapshot over the newer website.
 
 ## Reproducible upload
 
