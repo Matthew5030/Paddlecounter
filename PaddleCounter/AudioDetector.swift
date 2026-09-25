@@ -25,13 +25,11 @@ final class AudioDetector: ObservableObject {
     var sensitivity: Double = 0.9
 
     var classificationThreshold: Float {
-        let level = Float(min(max(sensitivity, 0), 1))
-        return 0.70 - level * 0.38
+        SensitivityTuning(sensitivity).classificationThreshold
     }
 
     var profileDistanceTolerance: Float {
-        let level = Float(min(max(sensitivity, 0), 1))
-        return 1.4 + level * 2.0
+        SensitivityTuning(sensitivity).distanceTolerance
     }
 
     private let engine = AVAudioEngine()
@@ -137,15 +135,12 @@ final class AudioDetector: ObservableObject {
 
         // Let the learned paddle profile do most of the rejecting. This gate only
         // needs to find a plausible short impact, including quieter hits across a court.
-        let level = min(max(sensitivity, 0), 1)
-        let onsetMultiplier = Float(2.0 - level * 0.8)
-        let minimumPeakRatio = Float(1.9 - level * 0.65)
-        let absoluteFloor = Float(0.0045 - level * 0.003)
-        let riseMultiplier = Float(1.04 - level * 0.03)
-        let adaptiveFloor = max(absoluteFloor, noiseFloor * onsetMultiplier)
-        let hasOnset = features.rms > adaptiveFloor &&
-            features.peakToRMS > minimumPeakRatio &&
-            features.rms > max(previousRMS * riseMultiplier, 0.0025)
+        let hasOnset = SensitivityTuning(sensitivity).hasOnset(
+            rms: features.rms,
+            peakToRMS: features.peakToRMS,
+            previousRMS: previousRMS,
+            noiseFloor: noiseFloor
+        )
         let usefulNegativeFrame = label == .ignoredSound && features.rms > max(0.005, noiseFloor * 1.35)
 
         if !hasOnset && !usefulNegativeFrame {

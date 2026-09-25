@@ -18,6 +18,7 @@
 		60CA122F73EEE8E13FB3E11D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B687719C35E7E8592FBC8 /* GameController.swift */; };
 		644DA15EC34F9D4F0AC8EBFC /* RallyRhythmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */; };
 		70F6565FA174BA7464145E2B /* PaddleCounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */; };
+		85B8A15967AB015AD550F271 /* SensitivityTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */; };
 		9883BC8EBA44B1ED80A18F37 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76236DAAFBFC474CF99358EC /* Models.swift */; };
 		CC639DCA317D8CD2E909A13C /* AudioDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BD242546BAECA1445749A /* AudioDetector.swift */; };
 		D557D4554356923A9237030C /* HistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D01298B34EDFB211868F66B /* HistoryScreen.swift */; };
@@ -54,6 +55,7 @@
 		831AB222354780CE07DA04B8 /* PaddleCounter.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PaddleCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B92BD242546BAECA1445749A /* AudioDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDetector.swift; sourceTree = "<group>"; };
 		BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyRhythmTests.swift; sourceTree = "<group>"; };
+		EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitivityTuning.swift; sourceTree = "<group>"; };
 		F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneFeedback.swift; sourceTree = "<group>"; };
 		FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmScreen.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				18EF742EECB9D51521466DA5 /* PlayScreen.swift */,
 				67537BFE2B760F145AD21BE8 /* RallyRhythm.swift */,
 				FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */,
+				EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */,
 				FEB289BBB5B61912C093160A /* SettingsView.swift */,
 				7ECA085421BA30529A761490 /* SoundClassifier.swift */,
 			);
@@ -222,6 +225,7 @@
 				3E54333C03AAE03DA40C9F16 /* PlayScreen.swift in Sources */,
 				ECBF71DF6D8BEEE34A2456BE /* RallyRhythm.swift in Sources */,
 				1AA1BAE887611BFCCC7FB88F /* RhythmScreen.swift in Sources */,
+				85B8A15967AB015AD550F271 /* SensitivityTuning.swift in Sources */,
 				ED08C9093033BA39B16E0253 /* SettingsView.swift in Sources */,
 				3EA2ECD3E6FD45A450322413 /* SoundClassifier.swift in Sources */,
 			);

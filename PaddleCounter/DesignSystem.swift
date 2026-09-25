@@ -202,6 +202,47 @@ struct PCMetric: View {
     }
 }
 
+struct SensitivityControl: View {
+    @Binding var value: Double
+    var tint: Color = PCTheme.aqua
+
+    private var tuning: SensitivityTuning { SensitivityTuning(value) }
+    private var percentage: Binding<Double> {
+        Binding(get: { tuning.percent }, set: { value = $0 / 100 * 3 - 1 })
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label("Sound sensitivity", systemImage: "ear")
+                .font(.subheadline.weight(.semibold))
+            HStack {
+                Text(tuning.label)
+                Spacer()
+                Text("\(Int(tuning.percent.rounded())) / 100")
+                    .monospacedDigit()
+            }
+            .font(.subheadline.bold())
+            .foregroundStyle(tint)
+            Slider(value: percentage, in: 0...100, step: 1)
+                .tint(tint)
+                .accessibilityLabel("Sound sensitivity")
+                .accessibilityValue("\(Int(tuning.percent.rounded())) out of 100, \(tuning.label)")
+            HStack {
+                Text("Reject more noise")
+                Spacer()
+                Text("Hear softer hits")
+            }
+            .font(.caption2)
+            .foregroundStyle(PCTheme.textSecondary)
+            if value > 1 {
+                Text("Boost picks up softer hits, but may also count more background sounds.")
+                    .font(.caption)
+                    .foregroundStyle(PCTheme.textSecondary)
+            }
+        }
+    }
+}
+
 struct PCCardModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

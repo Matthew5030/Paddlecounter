@@ -121,6 +121,31 @@ final class SoundClassifierTests: XCTestCase {
         XCTAssertTrue(sensitive.accepted)
     }
 
+    func testExpandedSensitivityDetectsSoftOnsetsBelowTheOldHardFloor() {
+        let oldMaximum = SensitivityTuning(1)
+        let newMaximum = SensitivityTuning(2)
+        XCTAssertFalse(oldMaximum.hasOnset(rms: 0.001, peakToRMS: 1.2, previousRMS: 0.0003, noiseFloor: 0.0003))
+        XCTAssertTrue(newMaximum.hasOnset(rms: 0.001, peakToRMS: 1.2, previousRMS: 0.0003, noiseFloor: 0.0003))
+        // Steady noise must not qualify even with maximum sensitivity.
+        XCTAssertFalse(newMaximum.hasOnset(rms: 0.002, peakToRMS: 1.5, previousRMS: 0.002, noiseFloor: 0.002))
+    }
+
+    func testExpandedStrictEndRejectsModerateImpactsAndEndpointsStayBounded() {
+        XCTAssertTrue(SensitivityTuning(0).hasOnset(rms: 0.01, peakToRMS: 2.5, previousRMS: 0.003, noiseFloor: 0.003))
+        XCTAssertFalse(SensitivityTuning(-1).hasOnset(rms: 0.01, peakToRMS: 2.5, previousRMS: 0.003, noiseFloor: 0.003))
+        XCTAssertEqual(SensitivityTuning(-5).percent, 0)
+        XCTAssertEqual(SensitivityTuning(5).percent, 100)
+        XCTAssertEqual(SensitivityTuning(.nan).level, 0.9)
+        for step in 0..<100 {
+            let low = SensitivityTuning(Double(step) / 100 * 3 - 1)
+            let high = SensitivityTuning(Double(step + 1) / 100 * 3 - 1)
+            XCTAssertGreaterThanOrEqual(low.classificationThreshold, high.classificationThreshold)
+            XCTAssertLessThanOrEqual(low.distanceTolerance, high.distanceTolerance)
+            XCTAssertGreaterThanOrEqual(low.absoluteFloor, high.absoluteFloor)
+            XCTAssertGreaterThanOrEqual(low.minimumRisingRMS, high.minimumRisingRMS)
+        }
+    }
+
     private func makeProfile() -> SoundProfile {
         SoundProfile(
             positiveExamples: (0..<12).map {

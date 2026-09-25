@@ -22,6 +22,13 @@ Only feature vectors and detection metadata are retained. Raw microphone audio a
 
 Changing the phone position or acoustic environment substantially should be followed by a new calibration.
 
+Sensitivity uses a 0–100 control in one-point steps. The original tuning occupies the middle
+third; Strict extends below it and Boost/Maximum extend above it. Saved settings keep their
+original behavior (the prior 90% setting now displays as 63/100). Boost lowers both loudness
+gates and relaxes profile matching, so it can detect softer impacts but may increase extra
+counts. The transient requirement, standard noise filter and negative-example rejection
+remain active. The displayed value is a control level, not a microphone gain or probability.
+
 ## Rally rhythm
 
 Open History → session → rally to see pace over time, individual gaps, timing variation,

@@ -245,26 +245,8 @@ struct CalibrationScreen: View {
 
             calibrationTotal(title: "Paddle examples learned", count: detector.positiveExamples, colour: PCTheme.lime)
 
-            VStack(spacing: 10) {
-                HStack {
-                    Label("Smart sensitivity", systemImage: "ear")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.white)
-                    Spacer()
-                    Text(sensitivityLabel)
-                        .font(.subheadline.bold())
-                        .foregroundStyle(PCTheme.lime)
-                }
-                Slider(value: $soundSensitivity, in: 0...1, step: 0.05)
-                    .tint(PCTheme.lime)
-                HStack {
-                    Text("Reject more noise")
-                    Spacer()
-                    Text("Hear quieter hits")
-                }
-                .font(.caption2)
-                .foregroundStyle(PCTheme.textSecondary)
-            }
+            SensitivityControl(value: $soundSensitivity, tint: PCTheme.lime)
+            .foregroundStyle(.white)
             .padding(15)
             .background(Color.black.opacity(0.16), in: RoundedRectangle(cornerRadius: 16))
 
@@ -355,15 +337,6 @@ struct CalibrationScreen: View {
         switch stage {
         case .paddle: PCTheme.lime
         case .test: PCTheme.aqua
-        }
-    }
-
-    private var sensitivityLabel: String {
-        switch soundSensitivity {
-        case ..<0.25: "Quiet room"
-        case 0.25..<0.65: "Smart"
-        case 0.65..<0.85: "Sensitive"
-        default: "Very sensitive"
         }
     }
 

@@ -34,27 +34,11 @@ struct SettingsView: View {
                     }
 
                     Section {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Label("Sound sensitivity", systemImage: "ear")
-                                Spacer()
-                                Text(sensitivityLabel)
-                                    .foregroundStyle(PCTheme.aqua)
-                            }
-                            Slider(value: $soundSensitivity, in: 0...1, step: 0.05)
-                                .tint(PCTheme.aqua)
-                            HStack {
-                                Text("Reject more")
-                                Spacer()
-                                Text("Hear quieter hits")
-                            }
-                            .font(.caption2)
-                            .foregroundStyle(PCTheme.textSecondary)
-                        }
+                        SensitivityControl(value: $soundSensitivity)
                     } header: {
                         Text("Recognition")
                     } footer: {
-                        Text("Smart is recommended. PaddleCounter listens for quieter impacts while its learned profile filters other sounds.")
+                        Text("Raise the level for missed hits; lower it for extra counts. Try your changes in Calibrate → Test detector.")
                     }
 
                     Section {
@@ -100,14 +84,6 @@ struct SettingsView: View {
         .preferredColorScheme(.dark)
     }
 
-    private var sensitivityLabel: String {
-        switch soundSensitivity {
-        case ..<0.25: "Quiet room"
-        case 0.25..<0.65: "Smart"
-        case 0.65..<0.85: "Sensitive"
-        default: "Very sensitive"
-        }
-    }
 }
 
 struct DiagnosticsScreen: View {
