@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		106264C60C4FED12A85E2D55 /* AppStoreScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */; };
+		10E64FD1327D8B2E4A547512 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76775D92FC175F384D72F557 /* ContentView.swift */; };
+		1AA1BAE887611BFCCC7FB88F /* RhythmScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */; };
+		1B47B97BFFCB9F8C13A43599 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62095111E61D5FFB98DDC868 /* Assets.xcassets */; };
+		32E560823ED378252538046A /* MilestoneFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */; };
+		3BA72671F311A4C93E1C9DB7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D6E19291171C3A4115D09AAE /* PrivacyInfo.xcprivacy */; };
+		3E54333C03AAE03DA40C9F16 /* PlayScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EF742EECB9D51521466DA5 /* PlayScreen.swift */; };
+		3EA2ECD3E6FD45A450322413 /* SoundClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ECA085421BA30529A761490 /* SoundClassifier.swift */; };
+		41C1F19CE39DC74A789AC24C /* CalibrationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0768F5B8C267A1273E0580BF /* CalibrationScreen.swift */; };
+		487A51CC8BF5EF3E8F5C873E /* SoundClassifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6326BA0883CB9859C22165C9 /* SoundClassifierTests.swift */; };
+		60CA122F73EEE8E13FB3E11D /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2B687719C35E7E8592FBC8 /* GameController.swift */; };
+		644DA15EC34F9D4F0AC8EBFC /* RallyRhythmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */; };
+		70F6565FA174BA7464145E2B /* PaddleCounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */; };
+		85B8A15967AB015AD550F271 /* SensitivityTuning.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */; };
+		9883BC8EBA44B1ED80A18F37 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76236DAAFBFC474CF99358EC /* Models.swift */; };
+		CC639DCA317D8CD2E909A13C /* AudioDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92BD242546BAECA1445749A /* AudioDetector.swift */; };
+		D557D4554356923A9237030C /* HistoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D01298B34EDFB211868F66B /* HistoryScreen.swift */; };
+		E869E7A3123D808D9B57E98D /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */; };
+		ECBF71DF6D8BEEE34A2456BE /* RallyRhythm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67537BFE2B760F145AD21BE8 /* RallyRhythm.swift */; };
+		ED08C9093033BA39B16E0253 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEB289BBB5B61912C093160A /* SettingsView.swift */; };
+		FCB81F9DC0D71497B3B17120 /* CalibrationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B302D9020EAEEFFEBE3F4 /* CalibrationStore.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BD88BCC9C2E3F69D151BF47C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACAB83C66B9F77B236CC4CEB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1CDABB72FD40CFF08B7C7555;
+			remoteInfo = PaddleCounter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0768F5B8C267A1273E0580BF /* CalibrationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationScreen.swift; sourceTree = "<group>"; };
+		18EF742EECB9D51521466DA5 /* PlayScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayScreen.swift; sourceTree = "<group>"; };
+		1A8B302D9020EAEEFFEBE3F4 /* CalibrationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationStore.swift; sourceTree = "<group>"; };
+		45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshotTests.swift; sourceTree = "<group>"; };
+		46786BC1D8EAFF19D7CF7B73 /* PaddleCounterTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PaddleCounterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A2B687719C35E7E8592FBC8 /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		5D01298B34EDFB211868F66B /* HistoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryScreen.swift; sourceTree = "<group>"; };
+		62095111E61D5FFB98DDC868 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6326BA0883CB9859C22165C9 /* SoundClassifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClassifierTests.swift; sourceTree = "<group>"; };
+		67537BFE2B760F145AD21BE8 /* RallyRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyRhythm.swift; sourceTree = "<group>"; };
+		76236DAAFBFC474CF99358EC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		76775D92FC175F384D72F557 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7ECA085421BA30529A761490 /* SoundClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundClassifier.swift; sourceTree = "<group>"; };
+		82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddleCounterApp.swift; sourceTree = "<group>"; };
+		831AB222354780CE07DA04B8 /* PaddleCounter.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PaddleCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B92BD242546BAECA1445749A /* AudioDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDetector.swift; sourceTree = "<group>"; };
+		BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyRhythmTests.swift; sourceTree = "<group>"; };
+		D6E19291171C3A4115D09AAE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitivityTuning.swift; sourceTree = "<group>"; };
+		F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneFeedback.swift; sourceTree = "<group>"; };
+		FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmScreen.swift; sourceTree = "<group>"; };
+		FEB289BBB5B61912C093160A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2F235E31F058D87678B7E3CC /* PaddleCounterTests */ = {
+			isa = PBXGroup;
+			children = (
+				45C0F01CEA019074EE36E045 /* AppStoreScreenshotTests.swift */,
+				BC4E06834F14831738E58D4E /* RallyRhythmTests.swift */,
+				6326BA0883CB9859C22165C9 /* SoundClassifierTests.swift */,
+			);
+			path = PaddleCounterTests;
+			sourceTree = "<group>";
+		};
+		3CB6A60309D7C8BD305672DC /* PaddleCounter */ = {
+			isa = PBXGroup;
+			children = (
+				62095111E61D5FFB98DDC868 /* Assets.xcassets */,
+				B92BD242546BAECA1445749A /* AudioDetector.swift */,
+				0768F5B8C267A1273E0580BF /* CalibrationScreen.swift */,
+				1A8B302D9020EAEEFFEBE3F4 /* CalibrationStore.swift */,
+				76775D92FC175F384D72F557 /* ContentView.swift */,
+				FD3D020994FEFBB74206F5B4 /* DesignSystem.swift */,
+				5A2B687719C35E7E8592FBC8 /* GameController.swift */,
+				5D01298B34EDFB211868F66B /* HistoryScreen.swift */,
+				F0665C3ED1CE5C8302DB0114 /* MilestoneFeedback.swift */,
+				76236DAAFBFC474CF99358EC /* Models.swift */,
+				82CBDB92DE591311DCC9060E /* PaddleCounterApp.swift */,
+				18EF742EECB9D51521466DA5 /* PlayScreen.swift */,
+				D6E19291171C3A4115D09AAE /* PrivacyInfo.xcprivacy */,
+				67537BFE2B760F145AD21BE8 /* RallyRhythm.swift */,
+				FD4051BC4FA50F921FAE9F17 /* RhythmScreen.swift */,
+				EDD02171D42D1BEA3C3FAA80 /* SensitivityTuning.swift */,
+				FEB289BBB5B61912C093160A /* SettingsView.swift */,
+				7ECA085421BA30529A761490 /* SoundClassifier.swift */,
+			);
+			path = PaddleCounter;
+			sourceTree = "<group>";
+		};
+		D2DE8555B2727854C5ECF776 = {
+			isa = PBXGroup;
+			children = (
+				3CB6A60309D7C8BD305672DC /* PaddleCounter */,
+				2F235E31F058D87678B7E3CC /* PaddleCounterTests */,
+				D33863FEAD5CD04380B50FBD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D33863FEAD5CD04380B50FBD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				831AB222354780CE07DA04B8 /* PaddleCounter.app */,
+				46786BC1D8EAFF19D7CF7B73 /* PaddleCounterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1CDABB72FD40CFF08B7C7555 /* PaddleCounter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C353C5712A5EE48151D24A1D /* Build configuration list for PBXNativeTarget "PaddleCounter" */;
+			buildPhases = (
+				DA256B3CBD8CDF5BC39A5E2C /* Sources */,
+				DFB0C526AC822CD2A2B90840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PaddleCounter;
+			packageProductDependencies = (
+			);
+			productName = PaddleCounter;
+			productReference = 831AB222354780CE07DA04B8 /* PaddleCounter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		591F6F7A6F36162FFDCFC427 /* PaddleCounterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D62A5BF0BA82DF38404A4DB6 /* Build configuration list for PBXNativeTarget "PaddleCounterTests" */;
+			buildPhases = (
+				5DDFB2EE7662F85ABF267B37 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D8F9AC784F03468458548D0 /* PBXTargetDependency */,
+			);
+			name = PaddleCounterTests;
+			packageProductDependencies = (
+			);
+			productName = PaddleCounterTests;
+			productReference = 46786BC1D8EAFF19D7CF7B73 /* PaddleCounterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ACAB83C66B9F77B236CC4CEB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					1CDABB72FD40CFF08B7C7555 = {
+						DevelopmentTeam = J8M4ND59V4;
+					};
+				};
+			};
+			buildConfigurationList = 1DC819DB9B5CA664E39AFD07 /* Build configuration list for PBXProject "PaddleCounter" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D2DE8555B2727854C5ECF776;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D33863FEAD5CD04380B50FBD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1CDABB72FD40CFF08B7C7555 /* PaddleCounter */,
+				591F6F7A6F36162FFDCFC427 /* PaddleCounterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DFB0C526AC822CD2A2B90840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B47B97BFFCB9F8C13A43599 /* Assets.xcassets in Resources */,
+				3BA72671F311A4C93E1C9DB7 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5DDFB2EE7662F85ABF267B37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				106264C60C4FED12A85E2D55 /* AppStoreScreenshotTests.swift in Sources */,
+				644DA15EC34F9D4F0AC8EBFC /* RallyRhythmTests.swift in Sources */,
+				487A51CC8BF5EF3E8F5C873E /* SoundClassifierTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA256B3CBD8CDF5BC39A5E2C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC639DCA317D8CD2E909A13C /* AudioDetector.swift in Sources */,
+				41C1F19CE39DC74A789AC24C /* CalibrationScreen.swift in Sources */,
+				FCB81F9DC0D71497B3B17120 /* CalibrationStore.swift in Sources */,
+				10E64FD1327D8B2E4A547512 /* ContentView.swift in Sources */,
+				E869E7A3123D808D9B57E98D /* DesignSystem.swift in Sources */,
+				60CA122F73EEE8E13FB3E11D /* GameController.swift in Sources */,
+				D557D4554356923A9237030C /* HistoryScreen.swift in Sources */,
+				32E560823ED378252538046A /* MilestoneFeedback.swift in Sources */,
+				9883BC8EBA44B1ED80A18F37 /* Models.swift in Sources */,
+				70F6565FA174BA7464145E2B /* PaddleCounterApp.swift in Sources */,
+				3E54333C03AAE03DA40C9F16 /* PlayScreen.swift in Sources */,
+				ECBF71DF6D8BEEE34A2456BE /* RallyRhythm.swift in Sources */,
+				1AA1BAE887611BFCCC7FB88F /* RhythmScreen.swift in Sources */,
+				85B8A15967AB015AD550F271 /* SensitivityTuning.swift in Sources */,
+				ED08C9093033BA39B16E0253 /* SettingsView.swift in Sources */,
+				3EA2ECD3E6FD45A450322413 /* SoundClassifier.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1D8F9AC784F03468458548D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1CDABB72FD40CFF08B7C7555 /* PaddleCounter */;
+			targetProxy = BD88BCC9C2E3F69D151BF47C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0BB99D1821795D80C1A0C923 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		0FF65581D0C1C3ADBE83D32D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthew5030.PaddleCounterTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PaddleCounter.app/PaddleCounter";
+			};
+			name = Release;
+		};
+		1B50ACDFFEB266C210F6D8EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		640C4926CC54CBFBEB618D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthew5030.PaddleCounterTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PaddleCounter.app/PaddleCounter";
+			};
+			name = Debug;
+		};
+		B9E09ABBCB15F6808BD6E1A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J8M4ND59V4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PaddleCounter;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "PaddleCounter listens for paddle hits to count rallies. Audio is processed on your device.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthew5030.PaddleCounter;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F03AD4FAEA02F81DC949A6B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J8M4ND59V4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PaddleCounter;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "PaddleCounter listens for paddle hits to count rallies. Audio is processed on your device.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthew5030.PaddleCounter;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DC819DB9B5CA664E39AFD07 /* Build configuration list for PBXProject "PaddleCounter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B50ACDFFEB266C210F6D8EA /* Debug */,
+				0BB99D1821795D80C1A0C923 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C353C5712A5EE48151D24A1D /* Build configuration list for PBXNativeTarget "PaddleCounter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9E09ABBCB15F6808BD6E1A6 /* Debug */,
+				F03AD4FAEA02F81DC949A6B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D62A5BF0BA82DF38404A4DB6 /* Build configuration list for PBXNativeTarget "PaddleCounterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				640C4926CC54CBFBEB618D1A /* Debug */,
+				0FF65581D0C1C3ADBE83D32D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ACAB83C66B9F77B236CC4CEB /* Project object */;
+}

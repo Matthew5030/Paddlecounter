@@ -1,0 +1,36 @@
+name: PaddleCounter
+options:
+  bundleIdPrefix: com.matthew5030
+targets:
+  PaddleCounter:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [PaddleCounter]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.matthew5030.PaddleCounter
+        DEVELOPMENT_TEAM: J8M4ND59V4
+        MARKETING_VERSION: 1.0
+        CURRENT_PROJECT_VERSION: 2
+        SWIFT_VERSION: 5.0
+        GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        INFOPLIST_KEY_CFBundleDisplayName: PaddleCounter
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "PaddleCounter listens for paddle hits to count rallies. Audio is processed on your device."
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        TARGETED_DEVICE_FAMILY: "1"
+  PaddleCounterTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources: [PaddleCounterTests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: PaddleCounter
